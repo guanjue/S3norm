@@ -7,7 +7,9 @@ tail = args[1]
 method = args[2]
 input_folder = args[3]
 output_name = args[4]
-user_given_global_ref = args[5]
+version = args[5]
+user_given_global_ref = args[6]
+
 
 ### extract filenames of the cell marker
 ref_file_list = list.files(input_folder, pattern=paste(tail, '$', sep='') )
@@ -35,14 +37,26 @@ print(which.max(SNR_list))
 
 
 if (is.na(user_given_global_ref)){
-	if (method=='snr'){
-		ref_file = file_list[which.max(SNR_list)]
-		frip_ref = FRiP_list[which.max(SNR_list)]
-		SNR_ref = SNR_list[which.max(SNR_list)]
-	} else if (method=='frip'){
-		ref_file = file_list[which.max(FRiP_list)]
-		frip_ref = FRiP_list[which.max(FRiP_list)]
-		SNR_ref = SNR_list[which.max(FRiP_list)]
+	if (version=='max')
+		if (method=='snr'){
+			ref_file = file_list[which.max(SNR_list)]
+			frip_ref = FRiP_list[which.max(SNR_list)]
+			SNR_ref = SNR_list[which.max(SNR_list)]
+		} else if (method=='frip'){
+			ref_file = file_list[which.max(FRiP_list)]
+			frip_ref = FRiP_list[which.max(FRiP_list)]
+			SNR_ref = SNR_list[which.max(FRiP_list)]
+		}
+	} else if (version=='median'){
+		if (method=='snr'){
+			ref_file = file_list[which(SNR_list == median(SNR_list))]
+			frip_ref = FRiP_list[which(SNR_list == median(SNR_list))]
+			SNR_ref = SNR_list[which(SNR_list == median(SNR_list))]
+		} else if (method=='frip'){
+			ref_file = file_list[which(FRiP_list == median(FRiP_list))]
+			frip_ref = FRiP_list[which(FRiP_list == median(FRiP_list))]
+			SNR_ref = SNR_list[which(FRiP_list == median(FRiP_list))]
+		}		
 	}
 } else {
 	ref_file = file_list[file_list==user_given_global_ref]

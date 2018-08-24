@@ -6,7 +6,8 @@ input_file_list=$4
 overall_upper=$5
 overall_lower=$6
 select_method=$7
-user_given_global_ref=$8
+select_ref_version=$8
+user_given_global_ref=$9
 
 
 ###### covert reads count to NB p-value
@@ -17,8 +18,6 @@ do
 	echo $sig1 $sig2
 	if time Rscript $script_dir'negative_binomial_p_2r_bgadj_bayes.R' $sig1 $input_dir $sig2 $input_dir $sig1; then echo 'covert reads count to NB p-value DONE'; else echo 'ERROR: covert reads count to NB p-value' && exit 1; fi
 done < $input_file_list
-
-
 
 ###### convert nbp to Fisher's method merged p-value
 ### extrac cell type mark list
@@ -47,7 +46,7 @@ do
 	if time Rscript $script_dir'get_mk_ref.R' $mk'.file_list.txt' $select_method $mk'.ref_frip.txt'; then echo 'select reference dataset for s3norm'; else echo 'ERROR: select reference dataset for s3norm' && exit 1; fi
 done
 ### select top reference dataset for cross mark s3norm
-if time Rscript $script_dir'get_top_ref.R' '.ref_frip.txt' $select_method $working_dir cross_mark_ref_list.txt $user_given_global_ref; then echo 'select top reference dataset for cross mark s3norm DONE'; else echo 'ERROR: select top reference dataset for cross mark s3norm' && exit 1; fi
+if time Rscript $script_dir'get_top_ref.R' '.ref_frip.txt' $select_method $working_dir cross_mark_ref_list.txt $select_ref_version $user_given_global_ref; then echo 'select top reference dataset for cross mark s3norm DONE'; else echo 'ERROR: select top reference dataset for cross mark s3norm' && exit 1; fi
 
 
 

@@ -105,7 +105,7 @@ def nb_cpf(signal_vec):
 
 ################################################################################################
 ### s3norm
-def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, rank_lim, upperlim, lowerlim, script_folder, p_method, cross_mk):
+def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, rank_lim, upperlim, lowerlim, script_folder, p_method, ref):
 	sig1_output_name = sig1_wg_raw.split('.')[0]+'_'+sig1_wg_raw.split('.')[2]
 	sig2_output_name = sig2_wg_raw.split('.')[0]+'_'+sig2_wg_raw.split('.')[2]
 
@@ -114,12 +114,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2 = read2d_array(sig2_wg_raw, float)
 	
 	### read whole genome binary label
-	if p_method == 'nb':
-		call('Rscript ' + script_folder + 'nbp_0326.R ' + sig1_wg_raw + ' ' + sig1_wg_raw + '.nbp.txt', shell=True)
-		sig1_p = read2d_array(sig1_wg_raw + '.nbp.txt', float)
-		sig1_z_p_fdr = p_adjust(sig1_p, 'fdr')
-		sig1_binary = sig1_z_p_fdr < fdr_thresh
-	elif p_method == 'z':
+	if p_method == 'z':
 		sig1_log2 = np.log2(sig1+0.01)
 		sig1_z_p_fdr = p_adjust(1 - norm.cdf((sig1_log2 - np.mean(sig1_log2))/ np.std(sig1_log2)), 'fdr')
 		sig1_binary = sig1_z_p_fdr < fdr_thresh
@@ -143,12 +138,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	print(sum(sig1_binary))
 	print(sig1_pk_num)
 
-	if p_method == 'nb':
-		call('Rscript ' + script_folder + 'nbp_0326.R ' + sig2_wg_raw + ' ' + sig2_wg_raw + '.nbp.txt', shell=True)
-		sig2_p = read2d_array(sig2_wg_raw + '.nbp.txt', float)
-		sig2_z_p_fdr = p_adjust(sig2_p, 'fdr')
-		sig2_binary = sig2_z_p_fdr < fdr_thresh
-	elif p_method == 'z':
+	if p_method == 'z':
 		sig2_log2 = np.log2(sig2+0.01)
 		sig2_z_p_fdr = p_adjust(1 - norm.cdf((sig2_log2 - np.mean(sig2_log2))/ np.std(sig2_log2)), 'fdr')
 		sig2_binary = sig2_z_p_fdr < fdr_thresh
@@ -157,7 +147,6 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 		sig2_z_p_fdr = p_adjust(sig2_p, 'fdr')
 		write2d_array(sig2_z_p_fdr.reshape(sig2_z_p_fdr.shape[0],1), sig2_wg_raw + '.nbp.txt')
 		sig2_binary = (sig2_z_p_fdr < fdr_thresh)
-
 
 	sig2_pk_num = np.sum(sig2_binary)
 	print('sig2_pk_num')
@@ -173,20 +162,16 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	print(sum(sig2_binary))
 	print(sig2_pk_num)
 
-	if cross_mk == 'F':
-		### peak region (both != 0 in sig1 & sig2)
+	### peak region (both != 0 in sig1 & sig2)
+	if ref == 'F':
 		peak_binary = (sig1_binary[:,0] & sig2_binary[:,0])
-		print(np.sum(peak_binary))
-		### background region (both == 0 in sig1 & sig2)
-		bg_binary = ~(sig1_binary[:,0] | sig2_binary[:,0])
-		print(np.sum(bg_binary))
 	else:
-		### peak region ( != 0 in sig1 OR sig2)
 		peak_binary = (sig1_binary[:,0] | sig2_binary[:,0])
-		print(np.sum(peak_binary))
-		### background region (both == 0 in sig1 & sig2)
-		bg_binary = ~(sig1_binary[:,0] | sig2_binary[:,0])
-		print(np.sum(bg_binary))
+	print(np.sum(peak_binary))
+
+	### background region (both == 0 in sig1 & sig2)
+	bg_binary = ~(sig1_binary[:,0] | sig2_binary[:,0])
+	print(np.sum(bg_binary))
 
 	### get common bg pk
 	sig1_cbg = sig1[bg_binary,0]
@@ -317,12 +302,12 @@ def main(argv):
 	try:
 		opts, args = getopt.getopt(argv,"hr:t:m:i:f:n:l:a:b:s:p:c:")
 	except getopt.GetoptError:
-		print 'time python s3norm.py -r reference_signal_track.txt -t target_signal_track.txt -m moment -i initial_B -f fdrthresh -n plotpoints_num -l rank_lim -a upperlimit -b lowerlimit -s script_folder-p p-value_method'
+		print 'time python s3norm.py -r reference_signal_track.txt -t target_signal_track.txt -m moment -i initial_B -f fdrthresh -n plotpoints_num -l rank_lim -a upperlimit -b lowerlimit -s script_folder-p p-value_method -c used_ref_version'
 		sys.exit(2)
 
 	for opt,arg in opts:
 		if opt=="-h":
-			print 'time python s3norm.py -r reference_signal_track.txt -t target_signal_track.txt -m moment -i initial_B -f fdrthresh -n plotpoints_num -l rank_lim -a upperlimit -b lowerlimit -s script_folder -p p-value_method'		
+			print 'time python s3norm.py -r reference_signal_track.txt -t target_signal_track.txt -m moment -i initial_B -f fdrthresh -n plotpoints_num -l rank_lim -a upperlimit -b lowerlimit -s script_folder -p p-value_method -c used_ref_version'		
 		elif opt=="-r":
 			sig1_wg_raw=str(arg.strip())				
 		elif opt=="-t":
@@ -346,9 +331,9 @@ def main(argv):
 		elif opt=="-p":
 			p_method=str(arg.strip())
 		elif opt=="-c":
-			cross_mk=str(arg.strip())
+			ref=str(arg.strip())
 
-	s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, rank_lim, upperlim, lowerlim, script_folder, p_method, cross_mk)
+	s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, rank_lim, upperlim, lowerlim, script_folder, p_method, ref)
 
 if __name__=="__main__":
 	main(sys.argv[1:])
