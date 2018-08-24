@@ -37,7 +37,7 @@ print(which.max(SNR_list))
 
 
 if (is.na(user_given_global_ref)){
-	if (version=='max')
+	if (version=='max'){
 		if (method=='snr'){
 			ref_file = file_list[which.max(SNR_list)]
 			frip_ref = FRiP_list[which.max(SNR_list)]
