@@ -15,6 +15,32 @@ bin_num=${10}
 rank_lim=$((bin_num / 100))
 plot_num=$((bin_num / 20))
 
+###### covert reads count to NB p-value
+while read LINE
+do
+	sig1=$(echo "$LINE" | awk '{print $1}')
+	sig2=$(echo "$LINE" | awk '{print $2}')
+	echo $sig1 $sig2
+	if time Rscript $script_dir'negative_binomial_p_2r_bgadj_bayes.R' $sig1 $input_dir $sig2 $input_dir $sig1; then echo 'covert reads count to NB p-value DONE'; else echo 'ERROR: covert reads count to NB p-value' && exit 1; fi
+done < $input_file_list
+
+###### convert nbp to Fisher's method merged p-value
+### extrac cell type mark list
+ls *.nbp_2r_bgadj.txt | awk -F '.' -v OFS='\t' '{print $1"."$2}' | sort -u > cell_marker_list.txt
+ls *.nbp_2r_bgadj.txt | awk -F '.' -v OFS='\t' '{print $2}' | sort -u > mark_list.txt
+ls *.nbp_2r_bgadj.txt | awk -F '.' -v OFS='\t' '{print $1}' | sort -u > cell_list.txt
+
+### move data NB p-value data into nbp folder
+if [ -d $working_dir'nbp/' ]; then echo $working_dir'nbp/' exist; else mkdir $working_dir'nbp/'; fi
+mv *.nbp_2r_bgadj.txt $working_dir'nbp/'
+mv *.mvsp.txt $working_dir'nbp/'
+### get Fisher's method merged pval
+for cm in $(cat cell_marker_list.txt)
+do
+	echo $cm
+	if time Rscript $script_dir'fisher_pval.R' $cm '.nbp_2r_bgadj.txt' $working_dir'nbp/' 100; then echo 'get Fisher method merged pval DONE'; else echo 'ERROR: get Fishers method merged pval' && exit 1; fi
+done
+
 ###### select reference dataset for s3norm
 for mk in $(cat mark_list.txt)
 do
