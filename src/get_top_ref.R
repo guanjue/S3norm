@@ -39,7 +39,7 @@ if (length(FRiP_list)==2){
 	version='max'
 }
 
-if (is.na(user_given_global_ref)){
+if (user_given_global_ref=='NA'){
 	if (version=='max'){
 		if (method=='snr'){
 			ref_file = file_list[which.max(SNR_list)]
