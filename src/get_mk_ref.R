@@ -31,17 +31,17 @@ if (method=='snr'){
 	frip_ref = FRiP_list[which.max(SNR_list)]
 	SNR_ref = SNR_list[which.max(SNR_list)]
 	write.table(c(ref_file, frip_ref, SNR_ref), output_name, sep='\t', quote=F, col.names=F, row.names=F)
-	ref_file_final = sub('.fisher_p.frip_snr.txt', '.pknorm.ref.txt', toString(parameters_files[which.max(SNR_list),1]))
+	ref_file_final = sub('.fisher_p.frip_snr.txt', '.s3norm.ref.txt', toString(parameters_files[which.max(SNR_list),1]))
 	parameters_files_name = apply(parameters_files, 1, function(x) sub('.frip_snr.txt', '.txt', x))
-	pknorm_list = cbind(rep(ref_file_final, dim(parameters_files)[1]), parameters_files_name)
-	write.table(pknorm_list, paste(output_name, '.info.txt', sep=''), sep='\t', quote=F, col.names=F, row.names=F)
+	s3norm_list = cbind(rep(ref_file_final, dim(parameters_files)[1]), parameters_files_name)
+	write.table(s3norm_list, paste(output_name, '.info.txt', sep=''), sep='\t', quote=F, col.names=F, row.names=F)
 } else if (method=='frip'){
 	ref_file = sub('.frip_snr.txt', '.txt', toString(parameters_files[which.max(FRiP_list),1]))
 	frip_ref = FRiP_list[which.max(FRiP_list)]
 	SNR_ref = SNR_list[which.max(FRiP_list)]
 	write.table(c(ref_file, frip_ref, SNR_ref), output_name, sep='\t', quote=F, col.names=F, row.names=F)
-	ref_file_final = sub('.fisher_p.frip_snr.txt', '.pknorm.ref.txt', toString(parameters_files[which.max(FRiP_list),1]))
+	ref_file_final = sub('.fisher_p.frip_snr.txt', '.s3norm.ref.txt', toString(parameters_files[which.max(FRiP_list),1]))
 	parameters_files_name = apply(parameters_files, 1, function(x) sub('.frip_snr.txt', '.txt', x))
-	pknorm_list = cbind(rep(ref_file_final, dim(parameters_files)[1]), parameters_files_name)
-	write.table(pknorm_list, paste(output_name, '.info.txt', sep=''), sep='\t', quote=F, col.names=F, row.names=F)
+	s3norm_list = cbind(rep(ref_file_final, dim(parameters_files)[1]), parameters_files_name)
+	write.table(s3norm_list, paste(output_name, '.info.txt', sep=''), sep='\t', quote=F, col.names=F, row.names=F)
 }
