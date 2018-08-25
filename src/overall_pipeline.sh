@@ -23,8 +23,8 @@ if time Rscript $script_dir'get_top_ref.R' '.ref_frip.txt' $select_method $worki
 ###### s3norm normalize reference datasets of all marks
 while read LINE
 do
-	sig1=$(echo "$LINE" | awk '{print $1}')
-	sig2=$(echo "$LINE" | awk '{print $2}')
+	sig1=$(echo "$LINE" | awk -F '\t' -v OFS='\t' '{print $1}')
+	sig2=$(echo "$LINE" | awk -F '\t' -v OFS='\t' '{print $2}')
 	sig2_celltype=$(echo "$LINE" | awk '{print $2}' | awk -F '.' -v OFS='\t' '{print $1"_"$2}')
 	upperlim=323
 	lowerlim=0
@@ -32,13 +32,23 @@ do
 	echo $sig2
 	echo $sig2_celltype
 	### set upper limit
-	cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
-	cat $sig2 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig2'.upperlim.txt' 
+	if [ "$sig1" -eq "$sig2" ]
+	then
+		cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
+	else
+		cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
+		cat $sig2 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig2'.upperlim.txt' 
+	fi
 	### peak norm
 	if time python $script_dir's3norm.py' -r $sig1'.upperlim.txt' -t $sig2'.upperlim.txt' -m 1 -i 2 -f 0.05 -n $plot_num -l $rank_lim -a 100 -b 0 -s $script_dir -p p -c T; then echo 's3norm across datasets DONE'; else echo 'ERROR: s3norm across datasets' && exit 1; fi
 	### rm tmp files
-	rm $sig1'.upperlim.txt'
-	rm $sig2'.upperlim.txt'
+	if [ "$sig1" -eq "$sig2" ]
+	then
+		rm $sig1'.upperlim.txt'
+	else
+		rm $sig1'.upperlim.txt'
+		rm $sig2'.upperlim.txt'
+	fi
 done < cross_mark_ref_list.txt.info.txt
 
 ### move ref norm files into ref_info folder
@@ -55,8 +65,8 @@ do
 	echo $mk
 	while read LINE
 	do
-		sig1=$(echo "$LINE" | awk '{print $1}')
-		sig2=$(echo "$LINE" | awk '{print $2}')
+		sig1=$(echo "$LINE" | awk -F '\t' -v OFS='\t' '{print $1}')
+		sig2=$(echo "$LINE" | awk -F '\t' -v OFS='\t' '{print $2}')
 		sig2_celltype=$(echo "$LINE" | awk '{print $2}' | awk -F '.' -v OFS='\t' '{print $1"_"$2}')
 		upperlim=323
 		lowerlim=0
@@ -64,13 +74,23 @@ do
 		echo $sig2
 		echo $sig2_celltype
 		### set upper limit
-		cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
-		cat $sig2 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig2'.upperlim.txt' 
+		if [ "$sig1" -eq "$sig2" ]
+		then
+			cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
+		else
+			cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
+			cat $sig2 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig2'.upperlim.txt' 
+		fi
 		### peak norm
 		if time python $script_dir's3norm.py' -r $sig1'.upperlim.txt' -t $sig2'.upperlim.txt' -m 1 -i 2 -f 0.05 -n $plot_num -l $rank_lim -a 100 -b 0 -s $script_dir -p p -c F; then echo 's3norm across datasets DONE'; else echo 'ERROR: s3norm across datasets' && exit 1; fi
 		### rm tmp files
-		rm $sig1'.upperlim.txt'
-		rm $sig2'.upperlim.txt'
+		if [ "$sig1" -eq "$sig2" ]
+		then
+			rm $sig1'.upperlim.txt'
+		else
+			rm $sig1'.upperlim.txt'
+			rm $sig2'.upperlim.txt'
+		fi
 	done < $mk'.ref_frip.txt.info.txt'
 done
 ### move s3norm files into s3norm_sig folder

@@ -242,12 +242,18 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_FRiP = np.sum(sig2[(sig2_binary[:,0]!=0),0]) / np.sum(sig2)
 	sig1_FRiP = np.sum(sig1[(sig1_binary[:,0]!=0),0]) / np.sum(sig1)
 
-	### write output: normalized signal
-	write2d_array(sig2_norm, sig2_output_name + '.s3norm.txt')
-
-	### write output: sf & FRiP
-	info = np.array([[total_mean_sf, B, A], [sig1_FRiP, sig2_norm_FRiP, sig2_FRiP]])
-	write2d_array(info, sig2_output_name + '.info.txt')
+	if ref == 'F':
+		### write output: normalized signal
+		write2d_array(sig2_norm, sig2_output_name + '.s3norm.txt')
+		### write output: sf & FRiP
+		info = np.array([[total_mean_sf, B, A], [sig1_FRiP, sig2_norm_FRiP, sig2_FRiP]])
+		write2d_array(info, sig2_output_name + '.info.txt')
+	else:
+		### write output: normalized signal
+		write2d_array(sig2_norm, sig2_output_name + '.s3norm.ref.txt')
+		### write output: sf & FRiP
+		info = np.array([[total_mean_sf, B, A], [sig1_FRiP, sig2_norm_FRiP, sig2_FRiP]])
+		write2d_array(info, sig2_output_name + '.ref.info.txt')
 
 
 	### plot scatter plot
