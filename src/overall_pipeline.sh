@@ -10,6 +10,7 @@ select_ref_version=$8
 user_given_global_ref=$9
 bin_num=$10
 
+
 ### set rank lim & plot point number
 rank_lim=$((bin_num / 100))
 plot_num=$((bin_num / 20))
@@ -25,7 +26,7 @@ do
 	sig1=$(echo "$LINE" | awk '{print $1}')
 	sig2=$(echo "$LINE" | awk '{print $2}')
 	sig2_celltype=$(echo "$LINE" | awk '{print $2}' | awk -F '.' -v OFS='\t' '{print $1"_"$2}')
-	upperlim=100
+	upperlim=323
 	lowerlim=0
 	echo $sig1 
 	echo $sig2
@@ -39,6 +40,7 @@ do
 	rm $sig1'.upperlim.txt'
 	rm $sig2'.upperlim.txt'
 done < cross_mark_ref_list.txt.info.txt
+
 ### move ref norm files into ref_info folder
 if [ -d $working_dir'ref_info/' ]; then echo $working_dir'ref_info/' exist; else mkdir $working_dir'ref_info/'; fi
 mv *.s3norm.scatterplot.png $working_dir'ref_info/'
@@ -56,7 +58,7 @@ do
 		sig1=$(echo "$LINE" | awk '{print $1}')
 		sig2=$(echo "$LINE" | awk '{print $2}')
 		sig2_celltype=$(echo "$LINE" | awk '{print $2}' | awk -F '.' -v OFS='\t' '{print $1"_"$2}')
-		upperlim=100
+		upperlim=323
 		lowerlim=0
 		echo $sig1 
 		echo $sig2
