@@ -106,8 +106,8 @@ def nb_cpf(signal_vec):
 ################################################################################################
 ### s3norm
 def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, rank_lim, upperlim, lowerlim, script_folder, p_method, ref):
-	sig1_output_name = sig1_wg_raw.split('.')[0]+'_'+sig1_wg_raw.split('.')[1]
-	sig2_output_name = sig2_wg_raw.split('.')[0]+'_'+sig2_wg_raw.split('.')[1]
+	sig1_output_name = sig1_wg_raw.split('.')[0]+'.'+sig1_wg_raw.split('.')[1]
+	sig2_output_name = sig2_wg_raw.split('.')[0]+'.'+sig2_wg_raw.split('.')[1]
 
 	### read whole genome signals
 	sig1 = read2d_array(sig1_wg_raw, float)
