@@ -32,7 +32,7 @@ do
 	echo $sig2
 	echo $sig2_celltype
 	### set upper limit
-	if [ "$sig1" -eq "$sig2" ]
+	if [ "$sig1" = "$sig2" ]
 	then
 		cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
 	else
@@ -42,7 +42,7 @@ do
 	### peak norm
 	if time python $script_dir's3norm.py' -r $sig1'.upperlim.txt' -t $sig2'.upperlim.txt' -m 1 -i 2 -f 0.05 -n $plot_num -l $rank_lim -a 100 -b 0 -s $script_dir -p p -c T; then echo 's3norm across datasets DONE'; else echo 'ERROR: s3norm across datasets' && exit 1; fi
 	### rm tmp files
-	if [ "$sig1" -eq "$sig2" ]
+	if [ "$sig1" = "$sig2" ]
 	then
 		rm $sig1'.upperlim.txt'
 	else
@@ -74,7 +74,7 @@ do
 		echo $sig2
 		echo $sig2_celltype
 		### set upper limit
-		if [ "$sig1" -eq "$sig2" ]
+		if [ "$sig1" = "$sig2" ]
 		then
 			cat $sig1 | awk -F '\t' -v OFS='\t' -v ul=$upperlim '{if ($1>=ul) print ul; else print $1}' > $sig1'.upperlim.txt'
 		else
@@ -84,7 +84,7 @@ do
 		### peak norm
 		if time python $script_dir's3norm.py' -r $sig1'.upperlim.txt' -t $sig2'.upperlim.txt' -m 1 -i 2 -f 0.05 -n $plot_num -l $rank_lim -a 100 -b 0 -s $script_dir -p p -c F; then echo 's3norm across datasets DONE'; else echo 'ERROR: s3norm across datasets' && exit 1; fi
 		### rm tmp files
-		if [ "$sig1" -eq "$sig2" ]
+		if [ "$sig1" = "$sig2" ]
 		then
 			rm $sig1'.upperlim.txt'
 		else
