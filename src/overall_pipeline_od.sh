@@ -8,7 +8,7 @@ overall_lower=$6
 select_method=$7
 select_ref_version=$8
 user_given_global_ref=$9
-bin_num=$10
+bin_num=${10}
 
 ### set rank lim & plot point number
 rank_lim=$((bin_num / 100))

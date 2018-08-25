@@ -8,16 +8,12 @@ overall_lower=$6
 select_method=$7
 select_ref_version=$8
 user_given_global_ref=$9
-bin_num=$10
+bin_num=${10}
 
 
 ### set rank lim & plot point number
 rank_lim=$((bin_num / 100))
 plot_num=$((bin_num / 20))
-
-echo $bin_num
-echo $rank_lim
-echo $plot_num
 
 ### select top reference dataset for cross mark s3norm
 if time Rscript $script_dir'get_top_ref.R' '.ref_frip.txt' $select_method $working_dir cross_mark_ref_list.txt $select_ref_version $user_given_global_ref; then echo 'select top reference dataset for cross mark s3norm DONE'; else echo 'ERROR: select top reference dataset for cross mark s3norm' && exit 1; fi
