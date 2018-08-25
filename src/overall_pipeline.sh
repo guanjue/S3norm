@@ -15,6 +15,7 @@ bin_num=$10
 rank_lim=$((bin_num / 100))
 plot_num=$((bin_num / 20))
 
+echo $bin_num
 echo $rank_lim
 echo $plot_num
 
