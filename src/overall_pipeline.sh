@@ -23,7 +23,7 @@ do
 	if time Rscript $script_dir'get_mk_ref.R' $mk'.file_list.txt' $select_method $mk'.ref_'$select_method'.txt'; then echo 'select reference dataset for s3norm'; else echo 'ERROR: select reference dataset for s3norm' && exit 1; fi
 done
 ### select top reference dataset for cross mark s3norm
-if time Rscript $script_dir'get_top_ref.R' '.ref_frip.txt' $select_method $working_dir cross_mark_ref_list.txt $select_ref_version $user_given_global_ref; then echo 'select top reference dataset for cross mark s3norm DONE'; else echo 'ERROR: select top reference dataset for cross mark s3norm' && exit 1; fi
+if time Rscript $script_dir'get_top_ref.R' '.ref_'$select_method'.txt' $select_method $working_dir cross_mark_ref_list.txt $select_ref_version $user_given_global_ref; then echo 'select top reference dataset for cross mark s3norm DONE'; else echo 'ERROR: select top reference dataset for cross mark s3norm' && exit 1; fi
 
 
 
@@ -116,7 +116,7 @@ mv *.s3norm.txt $working_dir's3norm_sig/'
 if [ -d $working_dir's3norm_ref_sig/' ]; then echo $working_dir's3norm_ref_sig/' exist; else mkdir $working_dir's3norm_ref_sig/'; fi
 mv *.s3norm.ref.txt $working_dir's3norm_ref_sig/'
 ### ref frip & snp
-mv *.ref_frip.txt $working_dir'ref_info/'
+mv *'.ref_'$select_method'.txt' $working_dir'ref_info/'
 ### fisher pvalue signal without normalization
 if [ -d $working_dir'fisherp/' ]; then echo $working_dir'fisherp/' exist; else mkdir $working_dir'fisherp/'; fi
 mv *.fisher_p.txt $working_dir'fisherp/'
