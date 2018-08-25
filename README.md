@@ -11,7 +11,7 @@
 
 
 
-## Install VISION mouse pipeline
+## Install S3norm pipeline
 #### Clone the github repository 
 ```
 git clone https://github.com/guanjue/S3norm.git
@@ -23,11 +23,18 @@ time bash INSTALL.sh
 
 
 
-##### The input file list for S3norm: 
+#### The input file list for S3norm: 
+##### The file name should contain the cell type name and the mark name and sample id separated by ".":
+###### cell_type.mark_name.sample_id.canb_be_anything
+###### e.g. B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal
+
+##### If the user want to keep the replicates separate, the 'cell_type' in the file name should be replaced by the 'cell_type_sample_id'
+###### cell_type_sample_id.mark_name.canb_be_anything
+###### e.g. B_SPL_100035.h3k27acrep.bamtobed5endintersect.signal
+
 ###### 1st column: the signal of each bin;
 ###### all of the input file should be saved in the input folder (input_dir)
 ```
-info_table_all.rc2nbp.txt
 >>> head -1000000 B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal | tail -20
 0
 0
@@ -63,9 +70,9 @@ ER4.h3k27acrep.539.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
 
 
 ## Run S3norm
-##### (1) copy the 'run_pipeline.sh' in the VISION mouse pipeline into the working directory
+##### (1) copy the 'run_pipeline.sh' in the S3norm into the working directory
 ```
-cp ~/group/software/vision_mouse/run_pipeline.sh working_dir/
+cp ~/group/software/S3norm/run_pipeline.sh working_dir/
 ```
 ##### (2) change the following parameters in the 'run_IDEAS.sh' file:
 ###### script_dir='absolute path to the IDEAS_2018 dir'
@@ -81,9 +88,9 @@ cp ~/group/software/vision_mouse/run_pipeline.sh working_dir/
 ```
 >>> head -100 run_IDEAS.sh 
 ###### set parameters
-script_dir=/storage/home/gzx103/group/software/vision_mouse/src/
-working_dir=/storage/home/gzx103/scratch/vision/test_pipeline/
-input_dir=/storage/home/gzx103/scratch/vision/test_pipeline/input_5end_rc/
+script_dir=/storage/home/gzx103/group/software/S3norm/src/
+working_dir=/storage/home/gzx103/scratch/S3norm/test_pipeline/
+input_dir=/storage/home/gzx103/scratch/S3norm/test_pipeline/input_5end_rc/
 input_file_list=info_table_all.rc2nbp.txt
 overall_upper=100
 overall_lower=0
@@ -94,8 +101,18 @@ bin_num=13554672
 
 time bash $script_dir'overall_pipeline.sh' $script_dir $working_dir $input_dir $input_file_list $overall_upper $overall_lower $select_method $select_ref_version $user_given_global_ref $bin_num
 ```
+##### (3) create the input_list_file
+```
+>>> head info_table_all.rc2nbp.txt
+B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
+CFU_E_ad.h3k27acrep.100030.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
+CLP.h3k27acrep.100039.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
+CMP.h3k27acrep.100027.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
+ER4.h3k27acrep.538.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
+ER4.h3k27acrep.539.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
+```
 
-##### (3) use 'run_IDEAS.sh' script to run VISION mouse pipeline
+##### (4) use 'run_IDEAS.sh' script to run S3norm pipeline
 ```
 time bash run_pipeline.sh
 ```
@@ -106,13 +123,13 @@ time bash run_pipeline.sh
 ### All output files will be saved to the following directories inside the working directory:
 ```
 nbp/: The p-value of each sample based on the NB background model.
-s3norm_info/: The scatterplot and the parameters used in PKnorm normalization for each dataset
-s3norm_sig/: The signal files of the PKnorm normalized data
-ref_info/: The scatterplot and the parameters used in PKnorm normalization for reference datasets across all marks
-s3norm_ref_sig/: The signal files of the PKnorm normalized reference data
+s3norm_info/: The scatterplot and the parameters used in S3norm normalization for each dataset
+s3norm_sig/: The signal files of the S3norm normalized data
+ref_info/: The scatterplot and the parameters used in S3norm normalization for reference datasets across all marks
+s3norm_ref_sig/: The signal files of the S3norm normalized reference data
 fisherp/: The merged p-value from each sample's NB p-value by the Fisher's method
 list_files/: All of the list files used in the pipeline
-s3norm_0_100_sig/: The signal files of the PKnorm normalized data with the upper & lower bound limitation
+s3norm_0_100_sig/: The signal files of the S3norm normalized data with the upper & lower bound limitation
 ```
 
 
