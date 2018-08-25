@@ -104,7 +104,7 @@ do
 		### rm tmp files
 		rm $sig1'.upperlim.txt'
 		rm $sig2'.upperlim.txt'
-	done < $mk'.ref_frip.txt.info.txt'
+	done < $mk'.ref_'$select_method'.txt.info.txt'
 done
 ### move s3norm files into s3norm_sig folder
 if [ -d $working_dir's3norm_info/' ]; then echo $working_dir's3norm_info/' exist; else mkdir $working_dir's3norm_info/'; fi

@@ -15,6 +15,13 @@ bin_num=${10}
 rank_lim=$((bin_num / 100))
 plot_num=$((bin_num / 20))
 
+###### select reference dataset for s3norm
+for mk in $(cat mark_list.txt)
+do
+	echo $mk
+	ls *$mk*.frip_snr.txt > $mk'.file_list.txt'
+	if time Rscript $script_dir'get_mk_ref.R' $mk'.file_list.txt' $select_method $mk'.ref_'$select_method'.txt'; then echo 'select reference dataset for s3norm'; else echo 'ERROR: select reference dataset for s3norm' && exit 1; fi
+done
 ### select top reference dataset for cross mark s3norm
 if time Rscript $script_dir'get_top_ref.R' '.ref_frip.txt' $select_method $working_dir cross_mark_ref_list.txt $select_ref_version $user_given_global_ref; then echo 'select top reference dataset for cross mark s3norm DONE'; else echo 'ERROR: select top reference dataset for cross mark s3norm' && exit 1; fi
 
@@ -91,7 +98,7 @@ do
 			rm $sig1'.upperlim.txt'
 			rm $sig2'.upperlim.txt'
 		fi
-	done < $mk'.ref_frip.txt.info.txt'
+	done < $mk'.ref_'$select_method'.txt.info.txt'
 done
 ### move s3norm files into s3norm_sig folder
 if [ -d $working_dir's3norm_info/' ]; then echo $working_dir's3norm_info/' exist; else mkdir $working_dir's3norm_info/'; fi
