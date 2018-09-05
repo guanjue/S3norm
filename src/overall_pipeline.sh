@@ -12,7 +12,7 @@ bin_num=${10}
 
 
 ### set rank lim & plot point number
-rank_lim=$((bin_num / 100))
+rank_lim=$((bin_num / 1000))
 plot_num=$((bin_num / 20))
 
 ###### covert reads count to NB p-value
