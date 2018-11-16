@@ -75,8 +75,8 @@ ER4.h3k27acrep.539.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
 ```
 cp ~/group/software/S3norm/run_pipeline.sh working_dir/
 ```
-##### (2) change the following parameters in the 'run_IDEAS.sh' file:
-###### script_dir='absolute path to the IDEAS_2018 dir'
+##### (2) change the following parameters in the 'run_pipeline.sh' file:
+###### script_dir='absolute path to the S3norm directory'
 ###### working_dir='absolute path to the working directory'
 ###### input_file_list='the input and the correponding no antibody control file list'
 ###### input_dir='the input file's folder'
@@ -87,7 +87,7 @@ cp ~/group/software/S3norm/run_pipeline.sh working_dir/
 ###### user_given_global_ref='user given global reference dataset (if empty, pipeline will user the dataset with the highest frip/snr score dataset)'
 ###### bin_num='number of bins'
 ```
->>> head -100 run_IDEAS.sh 
+>>> head -100 run_pipeline.sh 
 ###### set parameters
 script_dir=/storage/home/gzx103/group/software/S3norm/src/
 working_dir=/storage/home/gzx103/scratch/S3norm/test_pipeline/
@@ -113,7 +113,7 @@ ER4.h3k27acrep.538.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
 ER4.h3k27acrep.539.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
 ```
 
-##### (4) use 'run_IDEAS.sh' script to run S3norm pipeline
+##### (4) use 'run_pipeline.sh' script to run S3norm pipeline
 ```
 time bash run_pipeline.sh
 ```
