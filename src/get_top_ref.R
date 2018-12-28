@@ -52,13 +52,15 @@ if (user_given_global_ref=='NA'){
 		}
 	} else if (version=='median'){
 		if (method=='snr'){
-			ref_file = file_list[which(SNR_list == median(SNR_list))]
-			frip_ref = FRiP_list[which(SNR_list == median(SNR_list))]
-			SNR_ref = SNR_list[which(SNR_list == median(SNR_list))]
+			SNR_median = SNR_list[order(SNR_list, decreasing=T)][round(length(SNR_list)/2, 0)]
+			ref_file = file_list[which(SNR_list == SNR_median)]
+			frip_ref = FRiP_list[which(SNR_list == SNR_median)]
+			SNR_ref = SNR_list[which(SNR_list == SNR_median)]
 		} else if (method=='frip'){
-			ref_file = file_list[which(FRiP_list == median(FRiP_list))]
-			frip_ref = FRiP_list[which(FRiP_list == median(FRiP_list))]
-			SNR_ref = SNR_list[which(FRiP_list == median(FRiP_list))]
+			FRiP_median = FRiP_list[order(FRiP_list, decreasing=T)][round(length(FRiP_list)/2, 0)]
+			ref_file = file_list[which(FRiP_list == FRiP_median)]
+			frip_ref = FRiP_list[which(FRiP_list == FRiP_median)]
+			SNR_ref = SNR_list[which(FRiP_list == FRiP_median)]
 		}		
 	}
 } else {
