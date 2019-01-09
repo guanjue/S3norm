@@ -154,7 +154,7 @@ mv *.frip_snr.txt $working_dir'fisherp/'
 for filename in $(cat cell_marker_list.txt)
 do
 	echo $filename
-	if cat $working_dir's3norm_sig/'$filename'.s3norm.txt' | awk -F '\t' -v OFS='\t' -v ul=$overall_upper -v ll=$overall_lower '{if ($1<ll) print ll; else if ($1>ul) print ul; else print $1}' > $filename'.s3norm.'$overall_lower'_'$overall_upper'.txt'; then echo 'set limit for signals DONE'; else echo 'ERROR: set limit for signals' && exit 1; fi
+	if cat $working_dir's3norm_sig/'$filename'.s3norm.txt' | awk -F '\t' -v OFS='\t' -v ul=$overall_upper -v ll=$overall_lower '{if ($1<ll) print 0; else if ($1>ul) print ul; else print $1}' > $filename'.s3norm.'$overall_lower'_'$overall_upper'.txt'; then echo 'set limit for signals DONE'; else echo 'ERROR: set limit for signals' && exit 1; fi
 done
 ### mv to the output folder
 if [ -d $working_dir's3norm_'$overall_lower'_'$overall_upper'_sig/' ]; then echo $working_dir's3norm_'$overall_lower'_'$overall_upper'_sig/' exist; else mkdir $working_dir's3norm_'$overall_lower'_'$overall_upper'_sig/'; fi
