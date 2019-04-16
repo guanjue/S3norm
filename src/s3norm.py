@@ -71,7 +71,7 @@ def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment,
 		sig2_bg_transformed[sig2_bg_transformed>upperlim] = upperlim
 		A = sig1_bg_mean / np.mean(sig2_bg_transformed)
 
-		print("Iteration %d | dFB: %f" % (i, dfb))
+		print("Iteration %d | dFB: %f" % (i, fb/dfb))
 		print([A,B])
 
 		last_AB = [A, B]
