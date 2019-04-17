@@ -202,8 +202,12 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 			A=AB[0]
 			B=AB[1]
 		elif p_method == 'z':
-			B= (np.mean(np.log2(sig1_cpk+small_num))-np.mean(np.log2(sig1_cbg+small_num))) / (np.mean(np.log2(sig2_cpk+small_num))-np.mean(np.log2(sig2_cbg+small_num)))
-			A= np.mean(np.log2(sig1_cpk+small_num))-B*np.mean(np.log2(sig2_cpk+small_num))
+			sig1_cpk_log2mean = np.mean(np.log2(sig1_cpk+small_num))
+			sig2_cpk_log2mean = np.mean(np.log2(sig2_cpk+small_num))
+			sig1_cbg_log2mean = np.mean(np.log2(sig1_cbg+small_num))
+			sig2_cbg_log2mean = np.mean(np.log2(sig2_cbg+small_num))
+			B = (sig1_cpk_log2mean-sig1_cbg_log2mean) / (sig2_cpk_log2mean-sig2_cbg_log2mean)
+			A = (sig1_cpk_log2mean*(sig2_cpk_log2mean-sig2_cbg_log2mean) - sig2_cpk_log2mean*(sig1_cpk_log2mean-sig1_cbg_log2mean)) / (sig1_cpk_log2mean-sig1_cbg_log2mean)
 			print(np.mean(np.log2(sig1_cpk+small_num)))
 			print(np.mean(np.log2(sig1_cbg+small_num)))
 			print(np.mean(np.log2(sig2_cpk+small_num)))
