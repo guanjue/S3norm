@@ -56,7 +56,7 @@ def p_adjust(pvalue, method):
 def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment, converge_thresh, numIterations):
 	sig1_pk_mean = np.mean(sig1_pk**moment)
 	sig1_bg_mean = np.mean(sig1_bg**moment)
-
+	converge_min = 1000.0
 	for i in range(0, numIterations):
 		sig2_pk_transformed = sig2_pk**(moment*B)
 		sig2_bg_transformed = sig2_bg**(moment*B)
@@ -76,7 +76,10 @@ def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment,
 		print("Iteration %d | dFB: %f" % (i, fb/dfb))
 		print([A,B])
 
-		last_AB = [A, B]
+		if abs(fb / dfb) < converge_min:
+			i_min = i
+			converge_min = abs(fb / dfb)
+			converge_min_AB = [A, B]
 
 		if abs(fb / dfb) < converge_thresh:
 			print('converged!')
@@ -85,7 +88,8 @@ def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment,
 
 	if abs(fb / dfb) >= converge_thresh:
 		print('NOT converged...')
-		used_AB = last_AB
+		print("Iteration %d | dFB: %f" % (i_min, converge_min))
+		used_AB = converge_min_AB
 
 	print('used: ')
 	print(used_AB)
