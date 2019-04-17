@@ -199,7 +199,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	print('added small number: '+str(small_num))
 	### get transformation factor
 	if sig1_output_name != sig2_output_name:
-		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 1.0, 2.0, moment, 1e-5, 100)
+		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 0.5, 2.0, moment, 1e-5, 100)
 		A=AB[0]
 		B=AB[1]
 	else:
