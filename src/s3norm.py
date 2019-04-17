@@ -67,6 +67,8 @@ def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment,
 
 		### next step
 		B = B - fb / dfb
+		if B <=0:
+			B = 0.01
 		sig2_bg_transformed = sig2_bg**(moment*B)
 		sig2_bg_transformed[sig2_bg_transformed>upperlim] = upperlim
 		A = sig1_bg_mean / np.mean(sig2_bg_transformed)
@@ -197,21 +199,9 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	print('added small number: '+str(small_num))
 	### get transformation factor
 	if sig1_output_name != sig2_output_name:
-		if p_method == 'p':
-			AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 1.0, 2.0, moment, 1e-5, 100)
-			A=AB[0]
-			B=AB[1]
-		elif p_method == 'z':
-			sig1_cpk_log2mean = np.mean(np.log2(sig1_cpk+small_num))
-			sig2_cpk_log2mean = np.mean(np.log2(sig2_cpk+small_num))
-			sig1_cbg_log2mean = np.mean(np.log2(sig1_cbg+small_num))
-			sig2_cbg_log2mean = np.mean(np.log2(sig2_cbg+small_num))
-			B = (sig1_cpk_log2mean-sig1_cbg_log2mean) / (sig2_cpk_log2mean-sig2_cbg_log2mean)
-			A = (sig1_cpk_log2mean*(sig2_cpk_log2mean-sig2_cbg_log2mean) - sig2_cpk_log2mean*(sig1_cpk_log2mean-sig1_cbg_log2mean)) / (sig1_cpk_log2mean-sig1_cbg_log2mean)
-			print(np.mean(np.log2(sig1_cpk+small_num)))
-			print(np.mean(np.log2(sig1_cbg+small_num)))
-			print(np.mean(np.log2(sig2_cpk+small_num)))
-			print(np.mean(np.log2(sig2_cbg+small_num)))
+		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 1.0, 2.0, moment, 1e-5, 100)
+		A=AB[0]
+		B=AB[1]
 	else:
 		A=1.0
 		B=1.0		
