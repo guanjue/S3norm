@@ -203,7 +203,11 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 			B=AB[1]
 		elif p_method == 'z':
 			B= (np.mean(np.log2(sig1_cpk+small_num))-np.mean(np.log2(sig1_cbg+small_num))) / (np.mean(np.log2(sig2_cpk+small_num))-np.mean(np.log2(sig2_cbg+small_num)))
-			A= np.mean(np.log2(sig1_cpk+small_num))-B*np.mean(np.log2(sig2_cpk+small_num))		
+			A= np.mean(np.log2(sig1_cpk+small_num))-B*np.mean(np.log2(sig2_cpk+small_num))
+			print(np.mean(np.log2(sig1_cpk+small_num)))
+			print(np.mean(np.log2(sig1_cbg+small_num)))
+			print(np.mean(np.log2(sig2_cpk+small_num)))
+			print(np.mean(np.log2(sig2_cbg+small_num)))
 	else:
 		A=1.0
 		B=1.0		
