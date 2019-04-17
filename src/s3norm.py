@@ -54,6 +54,7 @@ def p_adjust(pvalue, method):
 ################################################################################################
 ### NewtonRaphsonMethod
 def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment, converge_thresh, numIterations):
+	np.random.seed(2018)
 	sig1_pk_mean = np.mean(sig1_pk**moment)
 	sig1_bg_mean = np.mean(sig1_bg**moment)
 	converge_min = 1000.0
@@ -68,7 +69,7 @@ def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment,
 		### next step
 		B = B - fb / dfb
 		if B <=0:
-			B = 0.01
+			B = 1.0 + np.random.normal(0,1,1)[0]
 		sig2_bg_transformed = sig2_bg**(moment*B)
 		sig2_bg_transformed[sig2_bg_transformed>upperlim] = upperlim
 		A = sig1_bg_mean / np.mean(sig2_bg_transformed)
