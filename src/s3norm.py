@@ -90,7 +90,12 @@ def NewtonRaphsonMethod(sig1_pk,sig1_bg, sig2_pk,sig2_bg, upperlim, A,B, moment,
 	if abs(fb / dfb) >= converge_thresh:
 		print('NOT converged...')
 		print("Iteration %d | dFB: %f" % (i_min, converge_min))
-		used_AB = converge_min_AB
+		A = ( np.mean(np.log(sig1_bg)) * np.mean(np.log(sig2_pk)) - np.mean(np.log(sig1_pk)) * np.mean(np.log(sig2_bg)) ) / ( np.mean(np.log(sig2_pk)) - np.mean(np.log(sig2_bg)) )
+		B = ( np.mean(np.log(sig1_pk)) - np.mean(np.log(sig1_bg)) ) / ( np.mean(np.log(sig2_pk)) - np.mean(np.log(sig2_bg)) )
+		mean_log_AB = [A, B]
+		used_AB = mean_log_AB
+		print('converge_min_AB')
+		print(converge_min_AB)
 
 	print('used: ')
 	print(used_AB)
