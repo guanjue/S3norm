@@ -122,8 +122,10 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	
 	### read whole genome binary label
 	if p_method == 'z':
-		sig1_log2 = np.log2(sig1+0.01)
-		sig1_z_p_fdr = p_adjust(1 - norm.cdf((sig1_log2 - np.mean(sig1_log2))/ np.std(sig1_log2)), 'fdr')
+		#sig1_log2 = np.log2(sig1+0.01)
+		#sig1_z_p_fdr = p_adjust(1 - norm.cdf((sig1_log2 - np.mean(sig1_log2))/ np.std(sig1_log2)), 'fdr')
+		sig1a = sig1+0.01
+		sig1_z_p_fdr = p_adjust(1 - norm.cdf((sig1a - np.mean(sig1a))/ np.std(sig1a)), 'fdr')
 		sig1_binary = sig1_z_p_fdr < fdr_thresh
 	elif p_method == 'p':
 		sig1_p = 10.0**(-sig1)
@@ -146,8 +148,10 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	print(sig1_pk_num)
 
 	if p_method == 'z':
-		sig2_log2 = np.log2(sig2+0.01)
-		sig2_z_p_fdr = p_adjust(1 - norm.cdf((sig2_log2 - np.mean(sig2_log2))/ np.std(sig2_log2)), 'fdr')
+		#sig2_log2 = np.log2(sig2+0.01)
+		#sig2_z_p_fdr = p_adjust(1 - norm.cdf((sig2_log2 - np.mean(sig2_log2))/ np.std(sig2_log2)), 'fdr')
+		sig2a = sig2+0.01
+		sig2_z_p_fdr = p_adjust(1 - norm.cdf((sig2a - np.mean(sig2a))/ np.std(sig2a)), 'fdr')
 		sig2_binary = sig2_z_p_fdr < fdr_thresh
 	elif p_method == 'p':
 		sig2_p = 10.0**(-sig2)
