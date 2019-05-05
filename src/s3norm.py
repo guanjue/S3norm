@@ -203,7 +203,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig1_cpk_mean = np.mean(sig1_cpk)
 	sig2_cpk_mean = np.mean(sig2_cpk)
 
-	if sig1_output_name != sig2_output_name:
+	if (sig1_output_name != sig2_output_name) and (sig1_cbg_mean != sig2_cbg_mean) and (sig1_cpk_mean != sig2_cpk_mean):
 		small_num = (sig1_cpk_mean*sig2_cbg_mean - sig1_cbg_mean*sig2_cpk_mean) / ((sig1_cbg_mean-sig1_cpk_mean)-(sig2_cbg_mean-sig2_cpk_mean))
 	else:
 		small_num = 0.0
