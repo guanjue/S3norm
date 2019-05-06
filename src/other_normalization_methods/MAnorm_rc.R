@@ -12,7 +12,7 @@ input_sig1 = args[1]
 input_sig2 = args[2]
 output = args[3]
 
-small_num = 0.1
+small_num = 1
 random_sample_num = 1000000
 upperlim = 1000
 lowerlim = 0
@@ -25,14 +25,20 @@ sig4[sig4>upperlim] = upperlim
 sig4[sig4<lowerlim] = lowerlim
 
 
-sig1_z = ( sig1 - mean(sig1) ) / sd(sig1)
-sig2_z = ( sig1 - mean(sig1) ) / sd(sig1)
+sig1_notop = sig1[sig1<=quantile(sig1, 0.95)]
+sig2_notop = sig2[sig2<=quantile(sig2, 0.95)]
 
-sig1_z_p_fdr = p.adjust(pnorm(sig1_z, lower.tail = F), 'fdr')
-sig2_z_p_fdr = p.adjust(pnorm(sig2_z, lower.tail = F), 'fdr')
+sig1_z = ( sig1 - mean(sig1_notop) ) / sd(sig1_notop)
+sig2_z = ( sig1 - mean(sig2_notop) ) / sd(sig2_notop)
 
-sig1_binary = sig1_z_p_fdr <= 0.05
-sig2_binary = sig2_z_p_fdr <= 0.05
+sig1_z_p = pnorm(sig1_z, lower.tail = F)
+sig2_z_p = pnorm(sig2_z, lower.tail = F)
+
+sig1_z_p_fdr = p.adjust(sig1_z_p, 'fdr')
+sig2_z_p_fdr = p.adjust(sig2_z_p, 'fdr')
+
+sig1_binary = sig1_z_p_fdr < 0.05
+sig2_binary = sig2_z_p_fdr < 0.05
 
 peak_binary = as.logical(sig1_binary * sig2_binary) 
 
