@@ -204,14 +204,15 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_cpk_mean = np.mean(sig2_cpk)
 
 	if (sig1_output_name != sig2_output_name) and (sig1_cbg_mean != sig2_cbg_mean) and (sig1_cpk_mean != sig2_cpk_mean):
-		small_num = (sig1_cpk_mean*sig2_cbg_mean - sig1_cbg_mean*sig2_cpk_mean) / ((sig1_cbg_mean-sig1_cpk_mean)-(sig2_cbg_mean-sig2_cpk_mean))
+		#small_num = (sig1_cpk_mean*sig2_cbg_mean - sig1_cbg_mean*sig2_cpk_mean) / ((sig1_cbg_mean-sig1_cpk_mean)-(sig2_cbg_mean-sig2_cpk_mean))
+		small_num = 1.0
 	else:
 		small_num = 0.0
 
-	if small_num >1:
-		small_num = 1.0
-	elif small_num <0.1:
-		small_num = 0.1
+	#if small_num >1:
+	#	small_num = 1.0
+	#elif small_num <0.1:
+	#	small_num = 0.1
 	print('added small number: '+str(small_num))
 	### get transformation factor
 	if sig1_output_name != sig2_output_name:

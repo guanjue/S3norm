@@ -1,7 +1,7 @@
 library(ggplot2)
 library(RColorBrewer)
 
-list = read.table('rc_list.atac.norep.txt', header=F)
+list = read.table('rc_list.atac.txt', header=F)
 
 ct_list = as.character(list[,3])
 mk_list = as.character(list[,4])
@@ -43,7 +43,7 @@ for (i in 1:length(methods)){
 
 frip_2c$Method = factor(frip_2c$Method, levels = unique(frip_2c$Method),ordered = TRUE)
 
-pdf(paste('frip', '.norep.box.pdf', sep=''), width=8, height=4)
+pdf(paste('frip', '.atac.merged.box.pdf', sep=''), width=4, height=4)
 p = ggplot(data = frip_2c, aes(x=Method, y=FRIP)) 
 p = p + geom_boxplot(aes(fill = Method))
 p = p + geom_point(aes(y=FRIP, group=Method), position = position_dodge(width=0.75))
