@@ -189,10 +189,6 @@ nb_pval = apply(sig, MARGIN=1, function(x) get_pval(x[1], bin_num, sig_0_size, s
 
 ### get -log10(p-value)
 nb_pval[nb_pval<=1e-324] = 1e-324
-neglog10_nb_pval = -log10(nb_pval)
-
-### write output
-#write.table(neglog10_nb_pval, paste(output_name, '.nbp_1r_bgadj.txt', sep=''), quote=FALSE, col.names=FALSE, row.names=FALSE, sep='\t')
 
 ### get -log10(p-value)
 print('get -log10(p-value)')
