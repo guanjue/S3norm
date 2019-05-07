@@ -136,9 +136,9 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	### read whole genome binary label
 	if (common_pk_binary!='0') and (common_bg_binary!='0'):
 		common_pk_binary_sig = read2d_array(common_pk_binary, float)
-		peak_binary = common_pk_binary_sig == 1.0
+		peak_binary = (common_pk_binary_sig == 1.0)[:,0]
 		common_bg_binary_sig = read2d_array(common_bg_binary, float)
-		bg_binary = common_bg_binary_sig == 0.0
+		bg_binary = (common_bg_binary_sig == 0.0)[:,0]
 	else:
 		if p_method == 'z':
 			#sig1_log2 = np.log2(sig1+0.01)
