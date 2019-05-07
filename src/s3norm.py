@@ -246,6 +246,8 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_norm = np.array(sig2_norm)
 
 	### get transformation factor R2
+	sig2_norm[sig2_norm>upperlim] = upperlim
+	sig2_norm[sig2_norm<lowerlim] = lowerlim
 	sig2_cbg = sig2_norm[bg_binary]
 	sig2_cpk = sig2_norm[peak_binary]
 	if sig1_output_name != sig2_output_name:
