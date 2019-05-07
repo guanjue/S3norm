@@ -285,7 +285,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 
 	### convert to float np.array
 	sig2_norm = np.array(sig2_norm, float)
-	#sig2_norm[sig2[:,0]==0] = 0.0
+	sig2_norm[sig2[:,0]==0] = 0.0
 	sig2_norm_totalmean = np.mean(sig2_norm)
 	### reshape for writing oputput
 	sig2_norm = np.reshape(sig2_norm, (sig2_norm.shape[0],1))
