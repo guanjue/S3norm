@@ -126,7 +126,13 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	### read whole genome signals
 	sig1 = read2d_array(sig1_wg_raw, float)
 	sig2 = read2d_array(sig2_wg_raw, float)
-	
+
+	### limit signal
+	sig1[sig1>upperlim] = upperlim
+	sig1[sig1<lowerlim] = lowerlim
+	sig2[sig2>upperlim] = upperlim
+	sig2[sig2<lowerlim] = lowerlim
+
 	### read whole genome binary label
 	if p_method == 'z':
 		#sig1_log2 = np.log2(sig1+0.01)
@@ -218,6 +224,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	elif small_num <0.1:
 		small_num = 0.1
 	print('added small number: '+str(small_num))
+
 	### get transformation factor
 	if sig1_output_name != sig2_output_name:
 		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 0.5, 2.0, moment, 1e-5, 200)
@@ -236,9 +243,31 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 		elif s_norm < lowerlim:
 			s_norm = lowerlim
 		sig2_norm.append(s_norm)
+	sig2_norm = np.array(sig2_norm)
 
-	sig1[sig1>upperlim] = upperlim
-	sig1[sig1<lowerlim] = lowerlim
+	### get transformation factor R2
+	sig2_cbg = sig2_norm[bg_binary,0]
+	sig2_cpk = sig2_norm[peak_binary,0]
+	if sig1_output_name != sig2_output_name:
+		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 0.5, 2.0, moment, 1e-5, 200)
+		A=AB[0]
+		B=AB[1]
+	else:
+		A=1.0
+		B=1.0
+	print('R2 transformation: '+'B: '+str(B)+'; A: '+str(A))
+	### transformation
+	sig2_norm_R2 = []
+	for s in sig2_norm[:,0]:
+		s_norm = (A * (s+small_num)**B) - small_num
+		if s_norm > upperlim:
+			s_norm = upperlim
+		elif s_norm < lowerlim:
+			s_norm = lowerlim
+		sig2_norm_R2.append(s_norm)
+	sig2_norm = np.array(sig2_norm_R2)
+
+
 	### total reads sf (for compare)
 	sig1_totalmean = np.mean(sig1)
 	sig2_totalmean = np.mean(sig2)
