@@ -269,7 +269,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	### transformation
 	sig2_norm_R2 = []
 	for s in sig2_norm:
-		s_norm = (A * (s)**B)
+		s_norm = (A * (s)**B)-small_num
 		if s_norm > upperlim:
 			s_norm = upperlim
 		elif s_norm < lowerlim:
