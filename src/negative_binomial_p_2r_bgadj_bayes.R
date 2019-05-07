@@ -128,6 +128,8 @@ input = read.table(paste(input_folder, input_track_file, sep=''), header = F)
 thresh = 0
 
 sig_0 = sig[,1]
+### make sure the min(positive number is 1)
+sig_0 = sig_0 / min(sig_0[sig_0>0])
 #sig_0 = sig_0[sig_0>thresh]
 obs_0_num = sum(sig_0==thresh)
 sig_0_mean = mean(sig_0)
