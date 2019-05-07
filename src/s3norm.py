@@ -246,8 +246,8 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_norm = np.array(sig2_norm)
 
 	### get transformation factor R2
-	sig2_cbg = sig2_norm[bg_binary,0]
-	sig2_cpk = sig2_norm[peak_binary,0]
+	sig2_cbg = sig2_norm[bg_binary]
+	sig2_cpk = sig2_norm[peak_binary]
 	if sig1_output_name != sig2_output_name:
 		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, A, B, moment, 1e-5, 200)
 		A=AB[0]
@@ -258,7 +258,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	print('R2 transformation: '+'B: '+str(B)+'; A: '+str(A))
 	### transformation
 	sig2_norm_R2 = []
-	for s in sig2_norm[:,0]:
+	for s in sig2_norm:
 		s_norm = (A * (s+small_num)**B) - small_num
 		if s_norm > upperlim:
 			s_norm = upperlim
