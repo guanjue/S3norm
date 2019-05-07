@@ -249,7 +249,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_cbg = sig2_norm[bg_binary,0]
 	sig2_cpk = sig2_norm[peak_binary,0]
 	if sig1_output_name != sig2_output_name:
-		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, 0.5, 2.0, moment, 1e-5, 200)
+		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, A, B, moment, 1e-5, 200)
 		A=AB[0]
 		B=AB[1]
 	else:
