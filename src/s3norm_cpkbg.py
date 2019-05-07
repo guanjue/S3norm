@@ -222,8 +222,8 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_cpk_mean = np.mean(sig2_cpk)
 
 	if (sig1_output_name != sig2_output_name) and (sig1_cbg_mean != sig2_cbg_mean) and (sig1_cpk_mean != sig2_cpk_mean):
-		small_num = (sig1_cpk_mean*sig2_cbg_mean - sig1_cbg_mean*sig2_cpk_mean) / ((sig1_cbg_mean-sig1_cpk_mean)-(sig2_cbg_mean-sig2_cpk_mean))
-		#small_num = 1.0
+		#small_num = (sig1_cpk_mean*sig2_cbg_mean - sig1_cbg_mean*sig2_cpk_mean) / ((sig1_cbg_mean-sig1_cpk_mean)-(sig2_cbg_mean-sig2_cpk_mean))
+		small_num = 1.0
 	else:
 		small_num = 0.0
 
@@ -245,7 +245,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	### transformation
 	sig2_norm = []
 	for s in sig2[:,0]:
-		s_norm = (A * (s+small_num)**B) - small_num
+		s_norm = (A * (s+small_num)**B)
 		if s_norm > upperlim:
 			s_norm = upperlim
 		elif s_norm < lowerlim:
@@ -259,7 +259,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	sig2_cbg = sig2_norm[bg_binary]
 	sig2_cpk = sig2_norm[peak_binary]
 	if sig1_output_name != sig2_output_name:
-		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk+small_num,sig2_cbg+small_num, upperlim, A, B, moment, 1e-5, 200)
+		AB = NewtonRaphsonMethod(sig1_cpk+small_num,sig1_cbg+small_num, sig2_cpk,sig2_cbg, upperlim, A, B, moment, 1e-5, 200)
 		A=AB[0]
 		B=AB[1]
 	else:
@@ -269,7 +269,7 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 	### transformation
 	sig2_norm_R2 = []
 	for s in sig2_norm:
-		s_norm = (A * (s+small_num)**B) - small_num
+		s_norm = (A * (s)**B)
 		if s_norm > upperlim:
 			s_norm = upperlim
 		elif s_norm < lowerlim:
