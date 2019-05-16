@@ -21,12 +21,12 @@ get_true_NB_prob_size_pre = function(mean_non0, mean_x2_non0){
 	for (i in seq(0,0.99,0.005)){
 		k = k+1
 		ProbT = mean_non0 / (mean_x2_non0 - mean_non0^2 * (1-i))
-		if (ProbT<0.1){
-			ProbT = 0.1
+		if (ProbT<0.01){
+			ProbT = 0.01
 		}
 
-		if (ProbT>=0.9){
-			ProbT = 0.9
+		if (ProbT>=0.99){
+			ProbT = 0.99
 		}
 		SizeT = mean_non0 * (1-i) * ProbT / (1-ProbT)
 
@@ -56,12 +56,12 @@ get_true_NB_prob_size = function(x){
 	m2=mean(x[x>0]^2);
 	p0 = length(which(x==0)) / length(x);
 	p = m/(m2-m^2 * (1-p0));
-	#if (p<0.1){
-	#	p = 0.1
-	#}
-	#if (p>=0.9){
-	#	p = 0.9
-	#}
+	if (p<0.01){
+		p = 0.01
+	}
+	if (p>=0.99){
+		p = 0.99
+	}
 	s = m * (1 - p0) * p /(1-p);
 	rt=c(p,s,p0);
 
@@ -71,12 +71,12 @@ get_true_NB_prob_size = function(x){
 		p0=p^s;
 		print(p0)
 		p=m/(m2-m^2*(1-p0));
-		#if (p<0.1){
-		#	p = 0.1
-		#}
-		#if (p>=0.9){
-		#	p = 0.9
-		#}
+		if (p<0.01){
+			p = 0.01
+		}
+		if (p>=0.99){
+			p = 0.99
+		}
 		s=m * (1 - p0) * p / (1-p);
 		#rt=rbind(rt,c(p,s,p0));
 		rt = c(p,s,p0)
@@ -191,6 +191,7 @@ nb_pval = apply(sig, MARGIN=1, function(x) get_pval(x[1], bin_num, sig_0_size, s
 
 ### get -log10(p-value)
 nb_pval[nb_pval<=1e-324] = 1e-324
+nb_pval[nb_pval>1] = 1
 
 ### get -log10(p-value)
 print('get -log10(p-value)')
@@ -200,7 +201,6 @@ print(length(nb_pval[nb_pval<=1e-324]))
 
 ### remove extrame p-value
 nb_pval_min = min(nb_pval[nb_pval!=0])
-nb_pval[nb_pval<=1e-324] = 1e-324
 print(summary(nb_pval))
 
 
@@ -228,12 +228,12 @@ print(length(sig_bg_non0))
 
 ### get negative binomial parameters from signal track bg regions non0 regions
 sig_bg_prob = probT_sizeT[1]
-if (sig_bg_prob<0.1){
-	sig_bg_prob = 0.1
+if (sig_bg_prob<0.01){
+	sig_bg_prob = 0.01
 }
 
-if (sig_bg_prob>=0.9){
-	sig_bg_prob = 0.9
+if (sig_bg_prob>=0.99){
+	sig_bg_prob = 0.99
 }
 
 ### get p0 & size
@@ -263,6 +263,7 @@ nb_pval = apply(sig_input, MARGIN=1, function(x) get_pval(x[1], bin_num, sig_bg_
 
 ### get -log10(p-value)
 nb_pval[nb_pval<=1e-324] = 1e-324
+nb_pval[nb_pval>1] = 1
 neglog10_nb_pval = -log10(nb_pval)
 
 ### write output
