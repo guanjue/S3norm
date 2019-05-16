@@ -92,12 +92,12 @@ print(length(sig_0))
 ### get negative binomial parameters from signal track bg regions
 sig_0_notop_prob = sig_0_notop_probT_sizeT[1]
 #sig_0_prob = sig_0_mean / sig_0_var
-if (sig_0_notop_prob<0.1){
-	sig_0_notop_prob = 0.1
+if (sig_0_notop_prob<0.01){
+	sig_0_notop_prob = 0.01
 }
 
-if (sig_0_notop_prob>=0.9){
-	sig_0_notop_prob = 0.9
+if (sig_0_notop_prob>=0.99){
+	sig_0_notop_prob = 0.99
 }
 
 p0_notop = sig_0_notop_probT_sizeT[3]
@@ -133,7 +133,7 @@ sig_input = cbind(sig, input)
 nb_pval = apply(sig_input, MARGIN=1, function(x) get_pval(x[1], bin_num, sig_0_notop_size * (x[2]+1)/(input_0_mean+1), sig_0_notop_prob, obs_0_num) )
 
 ### get -log10(p-value)
-nb_pval[nb_pval<=1e-324] = 1e-324
+nb_pval[nb_pval<=1e-323] = 1e-323
 nb_pval[nb_pval>1] = 1
 neglog10_nb_pval = -log10(nb_pval)
 
@@ -141,7 +141,7 @@ neglog10_nb_pval = -log10(nb_pval)
 print('get -log10(p-value)')
 print(min(nb_pval[nb_pval!=0]))
 print(length(nb_pval))
-print(length(nb_pval[nb_pval<=1e-324]))
+print(length(nb_pval[nb_pval<=1e-323]))
 
 ### remove extrame p-value
 nb_pval_min = min(nb_pval[nb_pval!=0])
