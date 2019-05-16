@@ -7,7 +7,6 @@ signal_folder = args[2]
 input_track_file = args[3]
 input_folder = args[4]
 output_name = args[5]
-cbg_file = args[6]
 
 mean_vec = c()
 var_vec = c()
@@ -73,8 +72,7 @@ input = read.table(paste(input_folder, input_track_file, sep=''), header = F)
 thresh = 0
 
 sig_0 = sig[,1]
-cbg = scan(cbg_file)
-sig_0_notop = sig_0[cbg==1]
+sig_0_notop = sig_0[sig_0<quantile(sig_0, 0.99)]
 ### make sure the min(positive number is 1)
 #sig_0 = sig_0 / min(sig_0[sig_0>0])
 #sig_0 = sig_0[sig_0>thresh]
