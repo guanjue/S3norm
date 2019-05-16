@@ -147,12 +147,12 @@ print(length(sig_0))
 ### get negative binomial parameters from signal track bg regions
 sig_0_prob = sig_0_probT_sizeT[1]
 #sig_0_prob = sig_0_mean / sig_0_var
-if (sig_0_prob<0.1){
-	sig_0_prob = 0.1
+if (sig_0_prob<0.01){
+	sig_0_prob = 0.01
 }
 
-if (sig_0_prob>=0.9){
-	sig_0_prob = 0.9
+if (sig_0_prob>=0.99){
+	sig_0_prob = 0.99
 }
 
 p0 = sig_0_probT_sizeT[3]
