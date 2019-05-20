@@ -199,14 +199,10 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, moment, B_init, fdr_thresh, sample_num, ran
 		bg_binary = (common_bg_binary_sig == 0.0)[:,0]
 
 	### peak region (both != 0 in sig1 & sig2)
-	if ref == 'F':
+	if ref == 'T':
+		peak_binary = ~(bg_binary)
 		peak_binary = (sig1_binary[:,0] & sig2_binary[:,0])
-	else:
-		peak_binary = (sig1_binary[:,0] | sig2_binary[:,0])
 	print(np.sum(peak_binary))
-
-	### background region (both == 0 in sig1 & sig2)
-	bg_binary = ~(sig1_binary[:,0] | sig2_binary[:,0])
 	print(np.sum(bg_binary))
 
 	### get common bg pk

@@ -13,6 +13,11 @@ mse = function(x1, x2){
 	return(mean((x1-x2)^2))
 }
 
+mse = function(x1, x2){
+	return(mean((x1-x2)^2/(x1+x2)*2))
+}
+
+
 ct1 = 'G1E'
 method_vec = c('raw', 'TSnorm', 'MAnorm', 'QTnorm', 'S3norm')
 method_color_vec = c('gray', 'seagreen1', 'plum1', 'orange1', 'dodgerblue1')
@@ -52,8 +57,8 @@ set.seed(2018)
 t_id = 0
 for (t2 in t_vec){
 t_id = t_id+1
-d_rep1_tmp = (d[(dm<=quantile(dm,1)) & (dm>quantile(dm,t2)),2])
-d_rep2_tmp = (d[(dm<=quantile(dm,1)) & (dm>quantile(dm,t2)),4])
+d_rep1_tmp = (d[(dm<=quantile(dm,t2+interval)) & (dm>quantile(dm,t2-interval)),2])
+d_rep2_tmp = (d[(dm<=quantile(dm,t2+interval)) & (dm>quantile(dm,t2-interval)),4])
 #d_rep1_tmp = (d[(dm<=max(dm)-(t_id-1)*dm_range_d) & (dm>max(dm)-(t_id-0)*dm_range_d),2])
 #d_rep2_tmp = (d[(dm<=max(dm)-(t_id-1)*dm_range_d) & (dm>max(dm)-(t_id-0)*dm_range_d),4])
 #cor_rep_in = c(cor_rep_in, cor(d_rep1_tmp, d_rep2_tmp))
