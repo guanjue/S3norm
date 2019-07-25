@@ -12,7 +12,7 @@
 #####################################################################################
 
 ## Table of Contents
-**[Prerequisites and Installing S3norm](#Prerequisites-and-Installing-S3norm)**<br>
+**[1, Prerequisites and S3norm installation](#1,-Prerequisites-and-S3norm-installation)**<br>
 #####
 **[Installing S3norm pipeline](#Installing-S3norm-pipeline)**<br>
 #####
@@ -29,7 +29,7 @@
 
 #####################################################################################
 
-## Prerequisites and Installing S3norm 
+## 1, Prerequisites and S3norm installation
 ### S3norm dependencies are as follows:
 #### python/2.7, numpy, scipy, and R/
 
