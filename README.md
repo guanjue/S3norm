@@ -1,13 +1,14 @@
-# S3norm
-## From  Reads Count (RC) to S3norm normalized -log10(p-value)
+# S3norm: 
+## Simultaneous normalization of sequencing depth and signal-to-noise ratio in epigenomic data
+### From  Reads Count (RC) to S3norm normalized -log10(p-value)
 
-#### Motivation: The quantitative comparison of epigenomic data across multiple cell types has become a promising way to understand the biological function of epigenetic modifications. Due to difference in sequencing depth and signal-to-noise ratio, however, the raw epigenomic data may not reflect the real biological difference between cell types. Existing normalization methods are mainly designed for scaling signals in either the whole-genome or the peak regions, without considering the potentially different scaling factors between peak and background regions. Results: We propose a new data normalization method, S3norm, that normalizes the data by using a monotonic nonlinear data transformation to match signals in both the peak regions and the background regions differently, such that both sequencing depth and signal-to-noise ratio between data sets can be simulatenously normalized. We show that the S3norm normalized epigenomic data can better reflect real biological differences across multiple cell types.
+#### Quantitative comparison of epigenomic data across multiple cell types or experimental conditions is a promising way to understand the biological functions of epigenetic modifications. Difference in sequencing depth and signal-to-noise ratios resulted from different experiments however hinder our ability to identify real biological variation from raw epigenomic data. Proper normalization is therefore required prior to data analyses to gain meaningful insights. Existing data normalization methods mostly standardize signals by rescaling either background regions or peak regions, assuming that the same scale factor is applicable to both background regions and peak regions. While such methods adjust for differences due to sequencing depths, they fail when the signal-to-noise ratios are different across experiments. We propose a new data normalization method, called S3norm, that normalizes the sequencing depths and signal-to-noise ratios across different data sets simultaneously by a monotonic nonlinear transformation. Empirically we show that the epigenomic data normalized by our method can better capture real biological variation, such as their impact one gene expression regulation and the numbers of the their occurrences, across different cell types than existing methods. 
 
 
 
 <img src="https://github.com/guanjue/S3norm/blob/master/example_figures/overall_pipeline.png" width="800"/>
 
-##### Figure 1. The overall workflow of the S3norm normalization method. There are three major steps in S3norm. (a) The 1st step is to convert reads count in the 200-bp bins to -log10(p-value) for each epigenomic dataset. Each box represents the different signal tracks of the same data. The first one is the raw reads count of the G1E H3K4me3 dataset. The second one is the reads count of input sample. The third one is the -log10(p-value) of the G1E H3K4me3 dataset. The shoulder of the peaks are reduced after convert reads count to -log10(p-value) with the background adjustment. (b) The 2nd step is selecting the dataset with the highest SNR as the reference dataset for the S3norm normalization. The barplot represents the SNRs of all datasets. The dataset with the highest SNR (dataset with the orange bar) will be selected as the reference dataset. (c) The 3rd step is using a monotonic nonlinear data transformation model to normalize both the SNR and SD between the two datasets. The (1) part is identifing common peak regions and the common background regions between the two datasets. The left scatterplot is showing the signal of each bin in the target dataset and the reference dataset. In the right scatterplot, each data point is colored based on the type of the data point. The orange data points represent the common peak bins. The gray data points represent the common background bins. The blue data points represent the dataset-specific bins. The (2) part is using the monotonic nonlinear data transformation model to rotate the signal of the target dataset, so that (i) the means of the common peak regions of two datasets and (ii) the means of the common background regions of the two datasets can be matched. 
+##### Figure 1. Overview of the S3norm method. These are the scatterplots of read counts (log scale) in 10,000 randomly selected genome locations (200bp) in target cell (x-axis) and reference cell (y-axis). The left figure is the signal before S3norm. The right figure is the signal after S3norm. The S3norm applies a monotonic nonlinear model ( log⁡(Y_(norm,i))=log(α)+βlog(Y_i) ) to rotate the target signal so that (1) the mean signals of common peaks (green point, highlighted by black dash circle) and (2) the mean signals of common background (dark blue point, highlighted by black dash circle)  can be matched between the two data sets. The original data were split into three groups: the common peak regions (orange), the common background regions (gray), and the rest bins (blue). The overall mean is represented by a black point. 
 
 
 
@@ -51,7 +52,7 @@ chr6	25794000	25794200	97.7
 chr4	190032400	190032600	111.24
 chr17	7828000	7828200	76.11
 ```
-
+####
 #### !!! The first three columns of All of bedgraph files in the filelist should be exactly the same !!!. 
 #### !!! Only the fourth column is different !!!. 
 ####
@@ -62,117 +63,32 @@ chr17	7828000	7828200	76.11
 ```
 
 
-
-
-
-
 ## Run S3norm
-### (1) Use 'S3norm_pipeline.py' to run S3norm pipeline
+### (1) User can run the full pipeline of S3norm by using 'S3norm_pipeline.py' scripts in the 'S3norm/src/' folder
+##### Before running S3norm full pipeline, user should let S3norm know where is the work directory and where is the script directory.
+##### This can be done by replacing the "script_directory='/Users_given_directory/S3norm/'" 
+##### and the "working_script_directory='/Users/universe/software/S3norm/example_file/'" 
+##### !!! All of the bedgraph file should in the working directory !!!
 ```
 ### Setting script directory
-script_directory='/Users/universe/Documents/2018_BG/S3norm/'
+script_directory='/Users/universe/software/S3norm/'
+
 ### Setting working directory
-working_script_directory='/Users/universe/Documents/2018_BG/S3norm/example_file'
+working_script_directory='/Users/universe/software/S3norm/example_file/'
+
 ### Entering working directory
 cd $working_script_directory
+
+##################
 ### Run S3norm
+##################
 time python $script_directory'/src/S3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt
+
 ```
 
-
-#### The input file list for S3norm: 
-##### The file name should contain the cell type name and the mark name and sample id separated by ".":
-###### cell_type.mark_name.sample_id.canb_be_anything
-###### e.g. B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal
-
-##### If the user want to keep the replicates separate, the 'cell_type' in the file name should be replaced by the 'cell_type_sample_id'
-###### cell_type_sample_id.mark_name.canb_be_anything
-###### e.g. B_SPL_100035.h3k27acrep.bamtobed5endintersect.signal
-
-###### 1st column: the signal of each bin;
-###### all of the input file should be saved in the input folder (input_dir)
-```
->>> head -1000000 B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal | tail -20
-0
-0
-0
-1
-1
-0
-0
-0
-2
-0
-0
-0
-0
-4
-```
-
-##### The input filename list for S3norm: each column is separated by tab
-###### 1st column: target dataset; 
-###### 2nd column: the no antibody control file for the target dataset; Here, we used the same merge input file base on the 21 input files from 11 cell types. For each input file, it is first normalized to ER4.137.input.signal input dataset based the ratio of total reads count. Then, the same merge input file is the mean signal of the 21 normalized the input files. 
-###### For the atac-seq without input signal. We used a input file with all bins equal to one as the input signal.
-```
-info_table_all.rc2nbp.txt
->>> head info_table_all.rc2nbp.txt
-B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-CFU_E_ad.h3k27acrep.100030.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-CLP.h3k27acrep.100039.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-CMP.h3k27acrep.100027.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-ER4.h3k27acrep.538.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-ER4.h3k27acrep.539.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-......
-```
+### (2) User can also run each step in S3norm by using the following scripts in the 'S3norm/src/' folder
 
 
-## Run S3norm
-##### (1) copy the 'run_pipeline.sh' in the S3norm into the working directory
-```
-cp ~/group/software/S3norm/run_pipeline.sh working_dir/
-```
-##### (2) change the following parameters in the 'run_pipeline.sh' file:
-###### script_dir='absolute path to the S3norm directory'
-###### working_dir='absolute path to the working directory'
-###### input_file_list='the input and the correponding no antibody control file list'
-###### input_dir='the input file's folder'
-###### overall_upper='the upper limit of the output file'
-###### overall_lower='the lower limit of the output file'
-###### select_method='method used to select reference dataset (frip/snr)'
-###### select_ref_version='method used to select reference dataset (max/median)'
-###### user_given_global_ref='user given global reference dataset (if empty, pipeline will user the dataset with the highest frip/snr score dataset)'
-###### bin_num='number of bins'
-```
->>> head -100 run_pipeline.sh 
-###### set parameters
-script_dir=/storage/home/gzx103/group/software/S3norm/src/
-working_dir=/storage/home/gzx103/scratch/S3norm/test_pipeline/
-input_dir=/storage/home/gzx103/scratch/S3norm/test_pipeline/input_5end_rc/
-input_file_list=info_table_all.rc2nbp.txt
-overall_upper=100
-overall_lower=0
-select_method=frip
-select_ref_version=median
-user_given_global_ref=NA
-bin_num=13554672
-
-time bash $script_dir'overall_pipeline.sh' $script_dir $working_dir $input_dir $input_file_list $overall_upper $overall_lower $select_method $select_ref_version $user_given_global_ref $bin_num
-```
-##### (3) create the input_list_file
-```
->>> head info_table_all.rc2nbp.txt
-B_SPL.h3k27acrep.100035.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-CFU_E_ad.h3k27acrep.100030.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-CLP.h3k27acrep.100039.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-CMP.h3k27acrep.100027.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-ER4.h3k27acrep.538.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-ER4.h3k27acrep.539.bamtobed5endintersect.signal	merged_normed_input.rounding.txt
-```
-
-##### (4) use 'run_pipeline.sh' script to run S3norm pipeline
-```
-time bash run_pipeline.sh
-```
 
 
 
