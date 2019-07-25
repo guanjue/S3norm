@@ -20,7 +20,7 @@
 #####
 **[(4) Outputs of S3norm](#Outputs-of-S3norm)**<br>
 #####
-**[(5) How to run specific step(s) in S3norm pipeline](#How-to-run-specific-step(s)-in-S3norm-pipeline)**<br>
+**[(5) How to run specific steps in S3norm pipeline](#How-to-run-specific-steps-in-S3norm-pipeline)**<br>
 #####
 **[(6) Contacts and References](#Contacts-and-References)**<br>
 #####
@@ -172,7 +172,7 @@ total 22408
 ```
 
 #####################################################################################
-## How to run specific step(s) in S3norm pipeline
+## How to run specific steps in S3norm pipeline
 ### The S3norm pipeline has two steps can be run separately.
 #### (1) Get S3norm normalized read counts
 ##### There are three required parameters. 
