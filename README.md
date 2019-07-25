@@ -12,7 +12,7 @@
 
 #####################################################################################
 
-## Require python 2.7 and R
+## Require python/2.7, numpy, scipy and R/
 
 ## Install S3norm pipeline
 #### Clone the github repository 
@@ -30,6 +30,9 @@ time bash INSTALL.sh
 #### (1) The input filelist for S3norm
 ##### The filelist contains the names of the ChIP bedgraph file and the control bedgraph. Each row is one ChIP-seq sample. The 1st column is the ChIP bedgraph and 2nd column is the Contrl bedgraph file. (Separated by tab "\t") 
 ##### The example of the filelist is in the 'example_file' folder.
+##### The first column is the bedgraph file of ChIP signal and second column is the corresponding bedgraph file of the Control signal track.
+##### For the ChIP-seq, the Control signal can be computed by the same way in MACS (Zhang, Yong, et al. "Model-based analysis of ChIP-Seq (MACS)." Genome biology 9.9 (2008): R137.)
+##### For the ATAC-seq (or any other signal without control), a bedgraph file with control signal all equal to 1 can be used.
 ```
 >>> head file_list.txt 
 sig1.bedgraph	sig1.ctrl.bedgraph
@@ -150,6 +153,28 @@ total 22408
 -rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig3.bedgraph.NBP.info.txt
 -rw-r--r--  1 universe  staff  3597926 Jul 25 14:06 sig3.bedgraph.NBP.s3norm.bedgraph
 ```
+
+#####################################################################################
+## Run specific step(s) in S3norm
+### The S3norm pipeline has two steps can be run separately.
+#### (1) Get S3norm normalized read counts
+##### There are three required parameters. 
+##### -r : The filename of the reference signal bedgraph file. (The signal track S3norm normalize other files TO)
+##### -t : The filename of the traget signal bedgraph file. (The signal to be normalized by S3norm)
+##### -o : The output filename of the S3norm normalized signal track (bedgraph format)
+```
+time python $script_directory'/src/s3norm.py' -r average_ref.bedgraph -t sig1.bedgraph -o sig1.output
+```
+
+#### (2) Get signal track of negative log10 p-value based on a NB background model (NBP)
+##### There are three required parameters separated by white space. 
+##### 1st: The filename of ChIP signal track after S3nom (bedgraph format).
+##### 2nd: The filename of Control signal track after S3nom (bedgraph format).
+##### 3rd: The output filename of the NBP signal track (bedgraph format).
+```
+Rscript $script_directory'/src/negative_binomial_neglog10p.R' sig1.bedgraph.s3norm.bedgraph sig1.ctrl.bedgraph sig1.bedgraph.s3norm.NB.neglog10p.bedgraph
+```
+
 
 
 #####################################################################################
