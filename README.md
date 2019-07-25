@@ -12,7 +12,7 @@
 #####################################################################################
 
 ## Table of Contents
-**[Dependency python/2.7, numpy, scipy, and R/](#ABC)**<br>
+**[Dependency python/2.7, numpy, scipy, and R/](#Dependency python/2.7, numpy, scipy, and R/)**<br>
 **[Input files for S3norm](#Input files for S3norm)**<br>
 
 #####################################################################################
