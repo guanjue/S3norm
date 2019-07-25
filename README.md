@@ -64,7 +64,7 @@ chr17	7828000	7828200	76.11
 
 
 ## Run S3norm
-### (1) Use 'S3norm_pipeline.py' to run S3norm pipeline
+### Use 'S3norm_pipeline.py' to run S3norm pipeline
 ```
 ### Setting script directory
 script_directory='/Users/universe/Documents/2018_BG/S3norm/'
@@ -77,7 +77,7 @@ time python $script_directory'/src/S3norm_pipeline.py' -s $script_directory'/src
 ```
 
 
-### Options
+### Parameters for S3norm
 #### Required parameters:
 ##### For S3norm, there are just two required parameters.
 ##### (1) -s script_folder: the script directory of S3norm (e.g. /Users/universe/Documents/2018_BG/S3norm/src/)
@@ -110,18 +110,49 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 
 
 
-## Output results for S3norm
-### All output files will be saved to the following directories inside the working directory:
+## Outputs for S3norm
+### All outputs will be saved in the working directory
+#### The output signals will be saved in .begraph files.
+#### The output normalization factors will be saved in info.txt files.
+### There are three kinds of outputs for S3norm
+##### (1) The S3norm normalized read counts.
+##### (This is the signal for application requires counts data. (e.g. EdgeR or DESeq for differential peak calling))
 ```
-nbp/: The p-value of each sample based on the NB background model.
-s3norm_info/: The scatterplot and the parameters used in S3norm normalization for each dataset
-s3norm_sig/: The signal files of the S3norm normalized data
-ref_info/: The scatterplot and the parameters used in S3norm normalization for reference datasets across all marks
-s3norm_ref_sig/: The signal files of the S3norm normalized reference data
-fisherp/: The merged p-value from each sample's NB p-value by the Fisher's method
-list_files/: All of the list files used in the pipeline
-s3norm_0_100_sig/: The signal files of the S3norm normalized data with the upper & lower bound limitation
+ls -l S3norm_rc_bedgraph/
+total 22176
+-rw-r--r--  1 universe  staff       85 Jul 25 14:06 sig1.bedgraph.info.txt
+-rw-r--r--  1 universe  staff  4079433 Jul 25 14:06 sig1.bedgraph.s3norm.bedgraph
+-rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig2.bedgraph.info.txt
+-rw-r--r--  1 universe  staff  3689446 Jul 25 14:06 sig2.bedgraph.s3norm.bedgraph
+-rw-r--r--  1 universe  staff       85 Jul 25 14:06 sig3.bedgraph.info.txt
+-rw-r--r--  1 universe  staff  3568614 Jul 25 14:06 sig3.bedgraph.s3norm.bedgraph
 ```
+
+##### (2) The negative log10 p-value of S3norm normalized read counts based on a negative binomial background model.
+##### (This is the signal for peak calling (https://github.com/taoliu/MACS))
+```
+ls -l NBP_bedgraph/
+total 21544
+-rw-r--r--  1 universe  staff  4010208 Jul 25 14:06 sig1.bedgraph.s3norm.NB.neglog10p.bedgraph
+-rw-r--r--  1 universe  staff  3575110 Jul 25 14:06 sig2.bedgraph.s3norm.NB.neglog10p.bedgraph
+-rw-r--r--  1 universe  staff  3440239 Jul 25 14:06 sig3.bedgraph.s3norm.NB.neglog10p.bedgraph
+```
+
+##### (3) The S3norm normalized negative log10 p-value based on a negative binomial background model. 
+##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018)  
+##### and peak calling (https://github.com/taoliu/MACS))
+```
+ls -l S3norm_NBP_bedgraph/
+total 22408
+-rw-r--r--  1 universe  staff       85 Jul 25 14:06 sig1.bedgraph.NBP.info.txt
+-rw-r--r--  1 universe  staff  4130170 Jul 25 14:06 sig1.bedgraph.NBP.s3norm.bedgraph
+-rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig2.bedgraph.NBP.info.txt
+-rw-r--r--  1 universe  staff  3724940 Jul 25 14:06 sig2.bedgraph.NBP.s3norm.bedgraph
+-rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig3.bedgraph.NBP.info.txt
+-rw-r--r--  1 universe  staff  3597926 Jul 25 14:06 sig3.bedgraph.NBP.s3norm.bedgraph
+```
+
+
 
 
 ## References
