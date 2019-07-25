@@ -12,14 +12,14 @@ def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, 
 	print('Get average reference......Done')
 
 	### step 2
-	print('S3norm......')
+	print('Get S3norm normalized read counts......')
 	step2=call('for file in $(cat '+file_list+' | awk -F \'\\t\' \'{print $1}\'); do python '+script_folder+'/s3norm.py -r '+reference_name+' -t $file -o $file -m '+NTmethod+' -i '+B_init+' -f '+fdr_thresh+' -l '+rank_lim+' -a '+upperlim+' -b '+lowerlim+' -p '+p_method+' -k '+common_pk_binary+' -g '+common_bg_binary+'; done', shell=True)
-	print('S3norm......Done')
+	print('Get S3norm normalized read counts......Done')
 
 	### step 3
-	print('Get NB p-value signal track......')
+	print('Get signal track of negative log10 p-value based on a NB background model......')
 	step3=call('while read -r IP CTRL; do Rscript '+script_folder+'/negative_binomial_neglog10p.R $IP\'.s3norm.bedgraph\' $CTRL $IP\'.s3norm.NB.neglog10p.bedgraph\'; done < '+file_list, shell=True)
-	print('Get NB p-value signal track......Done')
+	print('Get signal track of negative log10 p-value based on a NB background model......Done')
 
 	### step 4
 	print('Get NBP average reference......')
@@ -27,9 +27,9 @@ def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, 
 	print('Get NBP average reference......Done')
 
 	### step 5
-	print('NBP S3norm......')
+	print('Get S3norm normalized negative log10 p-value based on NB background model......')
 	step5=call('for file in $(cat '+file_list+' | awk -F \'\t\' \'{print $1}\'); do python '+script_folder+'/s3norm.py -r '+reference_name+'.NBP.bedgraph -t $file\'.s3norm.NB.neglog10p.bedgraph\' -o $file\'.NBP\' -p neglog10p -m '+NTmethod+' -i '+B_init+' -f '+fdr_thresh+' -l '+rank_lim+' -a '+upperlim+' -b '+lowerlim+' -k '+common_pk_binary+' -g '+common_bg_binary+'; done', shell=True)
-	print('NBP S3norm......Done')
+	print('Get S3norm normalized negative log10 p-value based on NB background model......Done')
 
 	### step 6
 	print('Organize folder......')
