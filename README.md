@@ -98,16 +98,16 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 
 #### The other parameters that can be changed:
 ```
-##### (1) -r : The method for generating the reference signal track. Options: median (default) or mean
-##### (2) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
-##### (3) -i : The initial value for the power parameter in the non-linear transformation. Default: 2.0
-##### (4) -f : The FDR threshold for identifying common peaks. Default: 0.05 . The range is 0.0 < x < 1.0
-##### (5) -l : The minimum proportion of bins are used as peak for S3norm. Default: 0.001 . The range is 0.0 < x < 1.0
-##### (6) -a : The upperlimit for signal. This is to reduce the bias cause by extrame signals in the data. Default: 100000
-##### (7) -b : The lowerlimit for signal. S3norm requires all signal to be x >= 0 . Default: 0
-##### (8) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
-##### (9) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
-##### (10) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
+(1) -r : The method for generating the reference signal track. Options: median (default) or mean
+(2) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
+(3) -i : The initial value for the power parameter in the non-linear transformation. Default: 2.0
+(4) -f : The FDR threshold for identifying common peaks. Default: 0.05 . The range is 0.0 < x < 1.0
+(5) -l : The minimum proportion of bins are used as peak for S3norm. Default: 0.001 . The range is 0.0 < x < 1.0
+(6) -a : The upperlimit for signal. This is to reduce the bias cause by extrame signals in the data. Default: 100000
+(7) -b : The lowerlimit for signal. S3norm requires all signal to be x >= 0 . Default: 0
+(8) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
+(9) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
+(10) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
 ```
 
 #####################################################################################
@@ -171,15 +171,15 @@ python src/s3norm.py -h
 time python ../src/s3norm.py -r reference.bedgraph -t target.bedgraph -o target -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt)
 ```
 ```
-##### (1) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
-##### (2) -i : The initial value for the power parameter in the non-linear transformation. Default: 2.0
-##### (3) -f : The FDR threshold for identifying common peaks. Default: 0.05 . The range is 0.0 < x < 1.0
-##### (4) -l : The minimum proportion of bins are used as peak for S3norm. Default: 0.001 . The range is 0.0 < x < 1.0
-##### (5) -a : The upperlimit for signal. This is to reduce the bias cause by extrame signals in the data. Default: 100000
-##### (6) -b : The lowerlimit for signal. S3norm requires all signal to be x >= 0 . Default: 0
-##### (7) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
-##### (8) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
-##### (9) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
+(1) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
+(2) -i : The initial value for the power parameter in the non-linear transformation. Default: 2.0
+(3) -f : The FDR threshold for identifying common peaks. Default: 0.05 . The range is 0.0 < x < 1.0
+(4) -l : The minimum proportion of bins are used as peak for S3norm. Default: 0.001 . The range is 0.0 < x < 1.0
+(5) -a : The upperlimit for signal. This is to reduce the bias cause by extrame signals in the data. Default: 100000
+(6) -b : The lowerlimit for signal. S3norm requires all signal to be x >= 0 . Default: 0
+(7) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
+(8) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
+(9) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
 ```
 
 
