@@ -319,10 +319,11 @@ import getopt
 import sys
 def main(argv):
 	### read user provided parameters
-	opts, args = getopt.getopt(argv,"h:r:t:o:m:i:f:l:a:b:p:k:g:")
+	opts, args = getopt.getopt(argv,"hr:t:o:m:i:f:l:a:b:p:k:g:")
 	for opt,arg in opts:
 		if opt=="-h":
-			print('time python ../src/s3norm.py -r reference.bedgraph -t target.bedgraph -o target -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt)')	
+			print('time python ../src/s3norm.py -r reference.bedgraph -t target.bedgraph -o target -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt)')
+			return()	
 		elif opt=="-r":
 			sig1_wg_raw=str(arg.strip())				
 		elif opt=="-t":
@@ -395,7 +396,7 @@ def main(argv):
 	try:
 		print('User provide upperlim: -a '+str(upperlim))
 	except NameError:
-		print('Default upperlim: -a 100')
+		print('Default upperlim: -a 100000')
 		upperlim = 100000
 	###
 	try:
