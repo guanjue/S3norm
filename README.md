@@ -12,7 +12,7 @@
 
 #####################################################################################
 
-## Require python/2.7, numpy, scipy and R/
+## Require python/2.7, numpy, scipy, and R/
 
 ## Install S3norm pipeline
 #### Clone the github repository 
