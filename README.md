@@ -27,7 +27,6 @@ time bash INSTALL.sh
 #####################################################################################
 
 ## Input files for S3norm
-### S3norm uses bedgraph files as input files
 #### (1) The input filelist for S3norm
 ##### The filelist contains the names of the ChIP bedgraph file and the control bedgraph. Each row is one ChIP-seq sample. The 1st column is the ChIP bedgraph and 2nd column is the Contrl bedgraph file. (Separated by tab "\t") 
 ##### The example of the filelist is in the 'example_file' folder.
@@ -42,6 +41,7 @@ sig3.bedgraph	sig3.ctrl.bedgraph
 ##### The format of bedgraph is as follows:
 ##### The four columns are chromosome, bin_start, bin_end, and signal in the bin.
 ##### For the S3norm full pipeline, the average read counts for each bin should be used as signal.
+##### For the bedgraph files, they can be generated from bed file AND bigwig files by the bigWigAverageOverBed in UCSC utilities (http://hgdownload.soe.ucsc.edu/admin/exe/)
 ```
 >>> head sig1.bedgraph
 chrX	23515400	23515600	30.95
