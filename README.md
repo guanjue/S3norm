@@ -12,16 +12,21 @@
 #####################################################################################
 
 ## Table of Contents
-**[Prerequisites](#Prerequisites)**<br>
+**[Prerequisites and Installing S3norm](#Prerequisites-and-Installing-S3norm)**<br>
 **[Installing S3norm pipeline](#Installing-S3norm-pipeline)**<br>
+**[Inputs for S3norm](#Inputs-for-S3norm)**<br>
+**[Run S3norm pipeline](#Run-S3norm-pipeline)**<br>
+**[Outputs of S3norm](#Outputs-of-S3norm)**<br>
+**[Run specific step(s) in S3norm pipeline](#Run-specific-step(s)-in-S3norm-pipeline)**<br>
+**[Contacts and References](#Contacts-and-References)**<br>
 
 #####################################################################################
 
-## Prerequisites 
-#### S3norm dependencies are as follows:
+## Prerequisites and Installing S3norm 
+### S3norm dependencies are as follows:
 #### python/2.7, numpy, scipy, and R/
 
-## Installing S3norm pipeline
+### Installing S3norm pipeline
 #### Clone the github repository 
 ```
 git clone https://github.com/guanjue/S3norm.git
@@ -33,7 +38,7 @@ time bash INSTALL.sh
 
 #####################################################################################
 
-## Input files for S3norm
+## Inputs for S3norm
 #### (1) The input filelist for S3norm
 ##### The filelist contains the names of the ChIP bedgraph file and the control bedgraph. Each row is one ChIP-seq sample. The 1st column is the ChIP bedgraph and 2nd column is the Contrl bedgraph file. (Separated by tab "\t") 
 ##### The example of the filelist is in the 'example_file' folder.
@@ -77,7 +82,7 @@ chr17	7828000	7828200	76.11
 
 #####################################################################################
 
-## Run S3norm
+## Run S3norm pipeline
 ### Use 'S3norm_pipeline.py' to run S3norm pipeline
 ```
 ### Setting script directory
@@ -119,7 +124,7 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 
 #####################################################################################
 
-## Outputs for S3norm
+## Outputs of S3norm
 ### All outputs will be saved in the working directory
 #### The output signals will be saved in .begraph files.
 #### The output normalization factors will be saved in info.txt files.
@@ -162,7 +167,7 @@ total 22408
 ```
 
 #####################################################################################
-## Run specific step(s) in S3norm
+## Run specific step(s) in S3norm pipeline
 ### The S3norm pipeline has two steps can be run separately.
 #### (1) Get S3norm normalized read counts
 ##### There are three required parameters. 
@@ -203,10 +208,12 @@ Rscript $script_directory'/src/negative_binomial_neglog10p.R' sig1.bedgraph.s3no
 
 #####################################################################################
 
-## References
+## Contacts and References
+#### Contacts: 
+##### gzx103@psu.edu
 
-##### S3norm
+#### S3norm
 Xiang, Guanjue, et al. "S3norm: simultaneous normalization of sequencing depth and signal-to-noise ratio in epigenomic data." bioRxiv (2018): 506634.
 
-##### Vision paper
+#### Vision paper
 
