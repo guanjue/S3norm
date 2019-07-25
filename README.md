@@ -12,24 +12,22 @@
 #####################################################################################
 
 ## Table of Contents
-**[1, Prerequisites and S3norm installation](#1,-Prerequisites-and-S3norm-installation)**<br>
+**[(1) Prerequisites and S3norm installation](#(1)-Prerequisites-and-S3norm-installation)**<br>
 #####
-**[Installing S3norm pipeline](#Installing-S3norm-pipeline)**<br>
+**[(2) Inputs for S3norm](#(2)-Inputs-for-S3norm)**<br>
 #####
-**[Inputs for S3norm](#Inputs-for-S3norm)**<br>
+**[(3) How to run S3norm pipeline](#(3)-How-to-run-S3norm-pipeline)**<br>
 #####
-**[How to run S3norm pipeline](#How-to-run-S3norm-pipeline)**<br>
+**[(4) Outputs of S3norm](#(4)-Outputs-of-S3norm)**<br>
 #####
-**[Outputs of S3norm](#Outputs-of-S3norm)**<br>
+**[(5) How to run specific step(s) in S3norm pipeline](#(5)-How-to-run-specific-step(s)-in-S3norm-pipeline)**<br>
 #####
-**[How to run specific step(s) in S3norm pipeline](#How-to-run-specific-step(s)-in-S3norm-pipeline)**<br>
-#####
-**[Contacts and References](#Contacts-and-References)**<br>
+**[(6) Contacts and References](#(6)-Contacts-and-References)**<br>
 #####
 
 #####################################################################################
 
-## 1, Prerequisites and S3norm installation
+## (1) Prerequisites and S3norm installation
 ### S3norm dependencies are as follows:
 #### python/2.7, numpy, scipy, and R/
 
@@ -45,7 +43,7 @@ time bash INSTALL.sh
 
 #####################################################################################
 
-## Inputs for S3norm
+## (2) Inputs for S3norm
 #### (1) The input filelist for S3norm
 ##### The filelist contains the names of the ChIP bedgraph file and the control bedgraph. Each row is one ChIP-seq sample. The 1st column is the ChIP bedgraph and 2nd column is the Contrl bedgraph file. (Separated by tab "\t") 
 ##### The example of the filelist is in the 'example_file' folder.
@@ -89,7 +87,7 @@ chr17	7828000	7828200	76.11
 
 #####################################################################################
 
-## How to run S3norm pipeline
+## (3) How to run S3norm pipeline
 ### Use 'S3norm_pipeline.py' to run S3norm pipeline
 ```
 ### Setting script directory
@@ -131,7 +129,7 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 
 #####################################################################################
 
-## Outputs of S3norm
+## (4) Outputs of S3norm
 ### All outputs will be saved in the working directory
 #### The output signals will be saved in .begraph files.
 #### The output normalization factors will be saved in info.txt files.
@@ -174,7 +172,7 @@ total 22408
 ```
 
 #####################################################################################
-## How to run specific step(s) in S3norm pipeline
+## (5) How to run specific step(s) in S3norm pipeline
 ### The S3norm pipeline has two steps can be run separately.
 #### (1) Get S3norm normalized read counts
 ##### There are three required parameters. 
@@ -215,7 +213,7 @@ Rscript $script_directory'/src/negative_binomial_neglog10p.R' sig1.bedgraph.s3no
 
 #####################################################################################
 
-## Contacts and References
+## (6) Contacts and References
 #### Contacts: 
 ##### gzx103@psu.edu
 
