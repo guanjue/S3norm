@@ -13,6 +13,7 @@
 
 ## Table of Contents
 **[Prerequisites and Installing S3norm](#Prerequisites-and-Installing-S3norm)**<br>
+###
 **[Installing S3norm pipeline](#Installing-S3norm-pipeline)**<br>
 **[Inputs for S3norm](#Inputs-for-S3norm)**<br>
 **[Run S3norm pipeline](#Run-S3norm-pipeline)**<br>
