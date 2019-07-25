@@ -10,6 +10,7 @@
 ##### Figure 1. The overall workflow of the S3norm normalization method. There are three major steps in S3norm. (a) The 1st step is to convert reads count in the 200-bp bins to -log10(p-value) for each epigenomic dataset. Each box represents the different signal tracks of the same data. The first one is the raw reads count of the G1E H3K4me3 dataset. The second one is the reads count of input sample. The third one is the -log10(p-value) of the G1E H3K4me3 dataset. The shoulder of the peaks are reduced after convert reads count to -log10(p-value) with the background adjustment. (b) The 2nd step is selecting the dataset with the highest SNR as the reference dataset for the S3norm normalization. The barplot represents the SNRs of all datasets. The dataset with the highest SNR (dataset with the orange bar) will be selected as the reference dataset. (c) The 3rd step is using a monotonic nonlinear data transformation model to normalize both the SNR and SD between the two datasets. The (1) part is identifing common peak regions and the common background regions between the two datasets. The left scatterplot is showing the signal of each bin in the target dataset and the reference dataset. In the right scatterplot, each data point is colored based on the type of the data point. The orange data points represent the common peak bins. The gray data points represent the common background bins. The blue data points represent the dataset-specific bins. The (2) part is using the monotonic nonlinear data transformation model to rotate the signal of the target dataset, so that (i) the means of the common peak regions of two datasets and (ii) the means of the common background regions of the two datasets can be matched. 
 
 
+#####################################################################################
 
 ## Require python 2.7 and R
 
@@ -22,6 +23,8 @@ git clone https://github.com/guanjue/S3norm.git
 ```
 time bash INSTALL.sh
 ```
+
+#####################################################################################
 
 ## Input files for S3norm
 ### S3norm uses bedgraph files as input files
@@ -62,6 +65,7 @@ chr17	7828000	7828200	76.11
 >>> sort -k1,1 -k2,2n sig1.UNsorted.bedgraph > sig1.sorted.bedgraph
 ```
 
+#####################################################################################
 
 ## Run S3norm
 ### Use 'S3norm_pipeline.py' to run S3norm pipeline
@@ -76,6 +80,7 @@ cd $working_script_directory
 time python $script_directory'/src/S3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt
 ```
 
+#####################################################################################
 
 ### Parameters for S3norm
 #### Required parameters:
@@ -102,13 +107,7 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 ##### (10) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
 ```
 
-
-
-
-
-
-
-
+#####################################################################################
 
 ## Outputs for S3norm
 ### All outputs will be saved in the working directory
@@ -116,7 +115,7 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 #### The output normalization factors will be saved in info.txt files.
 ### There are three kinds of outputs for S3norm
 ##### (1) The S3norm normalized read counts.
-##### (This is the signal for application requires counts data. (e.g. EdgeR or DESeq for differential peak calling))
+##### (This is the signal for application requires counts data. (e.g. EdgeR (https://bioconductor.org/packages/release/bioc/html/edgeR.html) and DESeq2 (https://bioconductor.org/packages/release/bioc/html/DESeq2.html) for differential peak calling))
 ```
 ls -l S3norm_rc_bedgraph/
 total 22176
@@ -153,9 +152,12 @@ total 22408
 ```
 
 
-
+#####################################################################################
 
 ## References
 
-##### S3norm & vision paper
+##### S3norm
+Xiang, Guanjue, et al. "S3norm: simultaneous normalization of sequencing depth and signal-to-noise ratio in epigenomic data." bioRxiv (2018): 506634.
+
+##### Vision paper
 
