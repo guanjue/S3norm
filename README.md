@@ -18,11 +18,11 @@
 #####
 **[Inputs for S3norm](#Inputs-for-S3norm)**<br>
 #####
-**[Run S3norm pipeline](#Run-S3norm-pipeline)**<br>
+**[How to run S3norm pipeline](#How-to-run-S3norm-pipeline)**<br>
 #####
 **[Outputs of S3norm](#Outputs-of-S3norm)**<br>
 #####
-**[Run specific step(s) in S3norm pipeline](#Run-specific-step(s)-in-S3norm-pipeline)**<br>
+**[How to run specific step(s) in S3norm pipeline](#How-to-run-specific-step(s)-in-S3norm-pipeline)**<br>
 #####
 **[Contacts and References](#Contacts-and-References)**<br>
 #####
@@ -89,7 +89,7 @@ chr17	7828000	7828200	76.11
 
 #####################################################################################
 
-## Run S3norm pipeline
+## How to run S3norm pipeline
 ### Use 'S3norm_pipeline.py' to run S3norm pipeline
 ```
 ### Setting script directory
@@ -174,7 +174,7 @@ total 22408
 ```
 
 #####################################################################################
-## Run specific step(s) in S3norm pipeline
+## How to run specific step(s) in S3norm pipeline
 ### The S3norm pipeline has two steps can be run separately.
 #### (1) Get S3norm normalized read counts
 ##### There are three required parameters. 
