@@ -1,0 +1,3 @@
+sig1.bedgraph	sig1.ctrl.bedgraph
+sig2.bedgraph	sig2.ctrl.bedgraph
+sig3.bedgraph	sig3.ctrl.bedgraph
