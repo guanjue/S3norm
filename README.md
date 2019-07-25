@@ -12,14 +12,16 @@
 #####################################################################################
 
 ## Table of Contents
-**[Dependency python/2.7, numpy, scipy, and R/](#Dependency python/2.7, numpy, scipy, and R/)**<br>
-**[Input files for S3norm](#Input files for S3norm)**<br>
+**[Prerequisites](#Prerequisites)**<br>
+**[Installing S3norm pipeline](#Installing-S3norm-pipeline)**<br>
 
 #####################################################################################
 
-## Dependency python/2.7, numpy, scipy, and R/
+## Prerequisites 
+#### S3norm dependencies are as follows:
+#### python/2.7, numpy, scipy, and R/
 
-## Install S3norm pipeline
+## Installing S3norm pipeline
 #### Clone the github repository 
 ```
 git clone https://github.com/guanjue/S3norm.git
