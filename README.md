@@ -12,7 +12,7 @@
 
 #####################################################################################
 
-## Require python/2.7, numpy, scipy, and R/
+## Dependency python/2.7, numpy, scipy, and R/
 
 ## Install S3norm pipeline
 #### Clone the github repository 
@@ -76,7 +76,7 @@ chr17	7828000	7828200	76.11
 ### Setting script directory
 script_directory='/Users/universe/Documents/2018_BG/S3norm/'
 ### Setting working directory
-working_script_directory='/Users/universe/Documents/2018_BG/S3norm/example_file'
+working_script_directory='/Users/universe/Documents/2018_BG/S3norm/example_file/'
 ### Entering working directory
 cd $working_script_directory
 ### Run S3norm
