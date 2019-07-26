@@ -26,7 +26,7 @@ echo 'get average_ref'
 if [ "$method" == "median" ]
 	then
 		echo 'get reference median'
-		cat sigmat.txt | awk -F '\t' -v OFS='\t' '{sum=0; n=split($0,a); for(i=1;i<=n;i++) sum+=a[i]; asort(a); median=n%2?(a[(n+1)/2])/1:(a[n/2]+a[n/2+1])/2; print median}' > sigmat.average_ref.txt 
+		cat sigmat.txt | gawk -F '\t' -v OFS='\t' '{sum=0; n=split($0,a); for(i=1;i<=n;i++) sum+=a[i]; asort(a); median=n%2?(a[(n+1)/2])/1:(a[n/2]+a[n/2+1])/2; print median}' > sigmat.average_ref.txt 
 fi
 if [ "$method" == "mean" ]
 	then
