@@ -108,8 +108,8 @@ def main(argv):
 			print('-r (mean, median)')
 			return()
 	except NameError:
-		print('Default reference_method: -m median')
-		reference_method = 'median'
+		print('Default reference_method: -m mean')
+		reference_method = 'mean'
 	###
 	try:
 		print('User provide NTmethod: -m '+str(NTmethod))
