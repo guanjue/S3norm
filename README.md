@@ -148,7 +148,7 @@ total 22176
 ```
 
 ##### (2) The negative log10 p-value of S3norm normalized read counts based on a negative binomial background model.
-##### (This is the signal for peak calling (https://github.com/taoliu/MACS))
+##### (This is the signal for peak calling bdgpeakcall and bdgbroadcall in MACS2 (https://github.com/taoliu/MACS))
 ```
 ls -l NBP_bedgraph/
 total 21544
@@ -159,7 +159,7 @@ total 21544
 
 ##### (3) The S3norm normalized negative log10 p-value based on a negative binomial background model. 
 ##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018)  
-##### and peak calling (https://github.com/taoliu/MACS))
+##### and peak calling by bdgpeakcall and bdgbroadcall in MACS2 (https://github.com/taoliu/MACS))
 ```
 ls -l S3norm_NBP_bedgraph/
 total 22408
