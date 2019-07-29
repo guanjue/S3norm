@@ -70,7 +70,7 @@ brew install gawk
 ##### For the ChIP-seq, the Control signal can be computed by the same way in MACS (Zhang, Yong, et al. "Model-based analysis of ChIP-Seq (MACS)." Genome biology 9.9 (2008): R137.)
 ##### For the ATAC-seq (or any other signal without control), a bedgraph file with control signal all equal to 1 can be used.
 ```
->>> head file_list.txt 
+head file_list.txt 
 sig1.sorted.bedgraph	sig1.ctrl.sorted.bedgraph
 sig2.sorted.bedgraph	sig2.ctrl.sorted.bedgraph
 sig3.sorted.bedgraph	sig3.ctrl.sorted.bedgraph
@@ -82,7 +82,7 @@ sig3.sorted.bedgraph	sig3.ctrl.sorted.bedgraph
 ##### For the S3norm full pipeline, the average read counts for each bin should be used as signal.
 ##### For the bedgraph files, they can be generated from bed file AND bigwig files by the bigWigAverageOverBed in UCSC utilities (http://hgdownload.soe.ucsc.edu/admin/exe/)
 ```
->>> head sig1.UNsorted.bedgraph
+head sig1.UNsorted.bedgraph
 chr8	65127400	65127600	77.25
 chr21	40481600	40481800	72.84
 chr17	19170200	19170400	63.21
@@ -101,17 +101,17 @@ chr2	181514400	181514600	220.7
 #### !!! Each of bedgraph file in the filelist (both ChIP bedgraph and Control bedgraph) need to be sorted before running S3norm. !!!
 ##### This can be done by the following command:
 ```
->>> sort -k1,1 -k2,2n sig1.UNsorted.bedgraph > sig1.sorted.bedgraph
->>> sort -k1,1 -k2,2n sig2.UNsorted.bedgraph > sig2.sorted.bedgraph
->>> sort -k1,1 -k2,2n sig3.UNsorted.bedgraph > sig3.sorted.bedgraph
->>> sort -k1,1 -k2,2n sig1.ctrl.UNsorted.bedgraph > sig1.ctrl.sorted.bedgraph
->>> sort -k1,1 -k2,2n sig2.ctrl.UNsorted.bedgraph > sig2.ctrl.sorted.bedgraph
->>> sort -k1,1 -k2,2n sig3.ctrl.UNsorted.bedgraph > sig3.ctrl.sorted.bedgraph
+sort -k1,1 -k2,2n sig1.UNsorted.bedgraph > sig1.sorted.bedgraph
+sort -k1,1 -k2,2n sig2.UNsorted.bedgraph > sig2.sorted.bedgraph
+sort -k1,1 -k2,2n sig3.UNsorted.bedgraph > sig3.sorted.bedgraph
+sort -k1,1 -k2,2n sig1.ctrl.UNsorted.bedgraph > sig1.ctrl.sorted.bedgraph
+sort -k1,1 -k2,2n sig2.ctrl.UNsorted.bedgraph > sig2.ctrl.sorted.bedgraph
+sort -k1,1 -k2,2n sig3.ctrl.UNsorted.bedgraph > sig3.ctrl.sorted.bedgraph
 
 ###### The head of the bedgraph files after sorting. 
 ###### The first three columns of the bedgraph files are exactly the same. 
 ###### Only the 4th columns are different. 
->>> head sig1.sorted.bedgraph
+head sig1.sorted.bedgraph
 chr1	7000	7200	0
 chr1	18800	19000	0
 chr1	62400	62600	5.02
@@ -122,7 +122,8 @@ chr1	156000	156200	0
 chr1	158800	159000	0
 chr1	206400	206600	51.87
 chr1	217000	217200	0
->>> head sig2.sorted.bedgraph
+
+head sig2.sorted.bedgraph
 chr1	7000	7200	0
 chr1	18800	19000	0
 chr1	62400	62600	0
@@ -133,7 +134,8 @@ chr1	156000	156200	0
 chr1	158800	159000	0
 chr1	206400	206600	0
 chr1	217000	217200	0
->>> head sig3.sorted.bedgraph
+
+head sig3.sorted.bedgraph
 chr1	7000	7200	0
 chr1	18800	19000	0
 chr1	62400	62600	0
@@ -207,7 +209,7 @@ drwxr-xr-x  5 universe  staff   170B Jul 29 00:52 NBP_bedgraph
 ##### 'average_ref_bedgraph/'
 
 ```
->>> ls -ltrh
+ls -ltrh
 total 39688
 -rw-r--r--  1 universe  staff   2.8M Jul 25 13:58 sig1.sorted.bedgraph
 -rw-r--r--  1 universe  staff   2.7M Jul 25 13:58 sig3.sorted.bedgraph
@@ -228,7 +230,7 @@ drwxr-xr-x  5 universe  staff   170B Jul 28 20:29 NBP_bedgraph
 ##### (1) The S3norm normalized read counts. (Saved in 'S3norm_rc_bedgraph/')
 ##### (This is the signal for application requires counts data. (e.g. EdgeR (https://bioconductor.org/packages/release/bioc/html/edgeR.html) and DESeq2 (https://bioconductor.org/packages/release/bioc/html/DESeq2.html) for differential peak calling))
 ```
->>> ls -ltrh S3norm_rc_bedgraph/
+ls -ltrh S3norm_rc_bedgraph/
 total 22176
 -rw-r--r--  1 universe  staff   3.9M Jul 29 00:51 sig1.sorted.bedgraph.s3norm.bedgraph
 -rw-r--r--  1 universe  staff    86B Jul 29 00:51 sig1.sorted.bedgraph.info.txt
@@ -241,7 +243,7 @@ total 22176
 ##### (2) The negative log10 p-value of S3norm normalized read counts based on a negative binomial background model. (Saved in 'NBP_bedgraph/')
 ##### (This is the signal for peak calling 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
 ```
->>> ls -ltrh NBP_bedgraph
+ls -ltrh NBP_bedgraph
 total 21480
 -rw-r--r--  1 universe  staff   3.8M Jul 29 00:51 sig1.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
 -rw-r--r--  1 universe  staff   3.4M Jul 29 00:52 sig2.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
@@ -252,7 +254,7 @@ total 21480
 ##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018)  
 ##### and peak calling by 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
 ```
->>> ls -ltrh S3norm_NBP_bedgraph/
+ls -ltrh S3norm_NBP_bedgraph/
 total 22480
 -rw-r--r--  1 universe  staff   4.0M Jul 29 00:52 sig1.sorted.bedgraph.NBP.s3norm.bedgraph
 -rw-r--r--  1 universe  staff    71B Jul 29 00:52 sig1.sorted.bedgraph.NBP.info.txt
@@ -264,7 +266,7 @@ total 22480
 
 ##### (4) The 4th folder is used to save the reference signals for S3norm. (Saved in 'S3norm_NBP_bedgraph/')
 ```
->>> ls -ltrh average_ref_bedgraph/
+ls -ltrh average_ref_bedgraph/
 total 13296
 -rw-r--r--  1 universe  staff   2.7M Jul 29 00:51 average_ref.bedgraph
 -rw-r--r--  1 universe  staff   3.8M Jul 29 00:52 average_ref.bedgraph.NBP.bedgraph
