@@ -208,22 +208,6 @@ drwxr-xr-x  5 universe  staff   170B Jul 29 00:52 NBP_bedgraph
 ##### 'S3norm_NBP_bedgraph/'
 ##### 'average_ref_bedgraph/'
 
-```
-ls -ltrh
-total 39688
--rw-r--r--  1 universe  staff   2.8M Jul 25 13:58 sig1.sorted.bedgraph
--rw-r--r--  1 universe  staff   2.7M Jul 25 13:58 sig3.sorted.bedgraph
--rw-r--r--  1 universe  staff   2.7M Jul 25 13:58 sig2.sorted.bedgraph
--rw-r--r--  1 universe  staff   3.9M Jul 25 13:58 sig2.ctrl.sorted.bedgraph
--rw-r--r--  1 universe  staff   3.9M Jul 25 13:58 sig1.ctrl.sorted.bedgraph
--rw-r--r--  1 universe  staff   2.5M Jul 25 13:58 sig3.ctrl.sorted.bedgraph
--rw-r--r--  1 universe  staff   141B Jul 28 20:27 file_list.txt
-drwxr-xr-x  4 universe  staff   136B Jul 28 20:29 average_ref_bedgraph
-drwxr-xr-x  8 universe  staff   272B Jul 28 20:29 S3norm_rc_bedgraph
-drwxr-xr-x  8 universe  staff   272B Jul 28 20:29 S3norm_NBP_bedgraph
-drwxr-xr-x  5 universe  staff   170B Jul 28 20:29 NBP_bedgraph
-```
-
 #### Within each subfolder, the normalized signals will be saved in '*.begraph' files.
 #### The normalization factors will be saved in '*.info.txt' files.
 ### There are three kinds of outputs for S3norm
