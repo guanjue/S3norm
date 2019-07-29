@@ -279,7 +279,7 @@ total 13296
 ##### (1) -s script_folder: the script directory of S3norm (e.g. /Users/universe/Documents/2018_BG/S3norm/src/)
 ##### (2) -s input_file_list: the input filelist for S3norm (e.g. The 'file_list.txt' in the 'S3norm/example_file/' folder)
 
-#### For other parameters, user can check them by using the following command:
+#### For other parameters, user can change them by using the following command:
 ```
 script_directory='/Users/universe/Documents/2018_BG/S3norm/'
 python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt -r max1 -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0
