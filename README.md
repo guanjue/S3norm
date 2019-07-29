@@ -320,7 +320,7 @@ time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_
 ##### 2nd: The filename of Control signal track after S3nom (bedgraph format).
 ##### 3rd: The output filename of the NBP signal track (bedgraph format).
 ```
-Rscript $script_directory'/src/negative_binomial_neglog10p.R' S3norm_rc_bedgraph/sig1.sorted.bedgraph.s3norm.bedgraph sig1.ctrl.sorted.bedgraph sig1.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
+Rscript $script_directory'/src/negative_binomial_neglog10p.R' $working_directory'S3norm_rc_bedgraph/sig1.sorted.bedgraph.s3norm.bedgraph' sig1.ctrl.sorted.bedgraph sig1.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
 ```
 
 
