@@ -39,7 +39,8 @@
 ```
 git clone https://github.com/guanjue/S3norm.git
 ```
-#### Install dependency: go to S3norm folder and run the following command
+#### Install dependency: 
+##### If some of dependencies were not installed, user can use the following command to install them
 ```
 ###### For python dependencies, they can be installed by the following scripts
 pip install --upgrade pip --user
