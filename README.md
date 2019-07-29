@@ -295,11 +295,11 @@ python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t
 ##### -t : The filename of the traget signal bedgraph file. (The signal to be normalized by S3norm)
 ##### -o : The output filename of the S3norm normalized signal track (bedgraph format)
 ```
-time python $script_directory'/src/s3norm.py' -r average_ref.bedgraph -t sig1.sort.bedgraph -o sig1.output
+time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_bedgraph/average_ref.bedgraph' -t sig1.sort.bedgraph -o sig1.output
 ```
 ##### The other parameters can be changed in 's3norm.py' are as follows
 ```
-time python ../src/s3norm.py -r average_ref_bedgraph/average_ref.bedgraph -t sig1.sorted.bedgraph -o sig1.runseparately.output -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0
+time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_bedgraph/average_ref.bedgraph' -t sig1.sorted.bedgraph -o sig1.runseparately.output -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0
 ```
 ```
 (1) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
