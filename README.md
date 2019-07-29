@@ -37,6 +37,7 @@
 ### Installing S3norm pipeline
 #### Clone the github repository 
 ```
+cd /where_user_clone_the_S3norm_GitHub/
 git clone https://github.com/guanjue/S3norm.git
 ```
 #### Install dependency: 
@@ -94,10 +95,10 @@ chr14	28469600	28469800	167.98
 chr2	181514400	181514600	220.7
 ```
 
-#### !!! The first three columns of All of bedgraph files in the filelist should be exactly the same !!!. 
-#### !!! Only the fourth column is different !!!. 
+#### !!! The first three columns of All of bedgraph files in the filelist should be exactly the same. !!!
+#### !!! Only the fourth column is different. !!!
 ####
-##### Each of bedgraph file in the filelist (both ChIP bedgraph and Control bedgraph) need to be sorted before running S3norm. 
+#### !!! Each of bedgraph file in the filelist (both ChIP bedgraph and Control bedgraph) need to be sorted before running S3norm. !!!
 ##### This can be done by the following command:
 ```
 >>> sort -k1,1 -k2,2n sig1.UNsorted.bedgraph > sig1.sorted.bedgraph
@@ -121,14 +122,14 @@ chr1	217000	217200	0
 ## How to run S3norm pipeline
 #### Use 's3norm_pipeline.py' to run S3norm pipeline.
 ##### After perparing the input data, user just need to set the 'script_directory' and 'working_directory' to run S3norm.
-##### For 'script_directory/', it should be set as the location of folder where the 'S3norm' is saved
-##### For 'working_directory/', it should be set as the location of folder where the input data (bedgraph files and file_list.txt) are saved.
+##### For 'script_directory', it should be set as the location of folder where the 'S3norm' is saved
+##### For 'working_directory', it should be set as the location of folder where the input data (bedgraph files and file_list.txt) are saved.
 ##### The example script:
 ```
 ### Setting script directory
-script_directory='/Users/universe/Documents/2018_BG/S3norm/'
+script_directory='/where_user_clone_the_S3norm_GitHub/S3norm/'
 ### Setting working directory
-working_directory='/Users/universe/Documents/2018_BG/S3norm/example_file/'
+working_directory='/where_user_clone_the_S3norm_GitHub/S3norm/example_file/'
 ### Entering working directory
 cd $working_directory
 ### Run S3norm
@@ -169,10 +170,10 @@ drwxr-xr-x  5 universe  staff   170B Jul 29 00:52 NBP_bedgraph
 ## Outputs of S3norm
 ### All outputs will be saved in four subfolders in the working directory.
 ##### The four subfolders will be named as:
-##### S3norm_rc_bedgraph
-##### NBP_bedgraph
-##### S3norm_NBP_bedgraph
-##### average_ref_bedgraph
+##### 'S3norm_rc_bedgraph/'
+##### 'NBP_bedgraph/'
+##### 'S3norm_NBP_bedgraph/'
+##### 'average_ref_bedgraph/'
 
 ```
 >>> ls -ltrh
@@ -230,7 +231,7 @@ total 22480
 -rw-r--r--  1 universe  staff    86B Jul 29 00:52 sig3.sorted.bedgraph.NBP.info.txt
 ```
 
-##### (4) The reference signal for S3norm. (Saved in 'S3norm_NBP_bedgraph/')
+##### (4) The 4th folder is used to save the reference signals for S3norm. (Saved in 'S3norm_NBP_bedgraph/')
 ```
 >>> ls -ltrh average_ref_bedgraph/
 total 13296
