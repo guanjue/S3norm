@@ -118,11 +118,11 @@ chr1	217000	217200	0
 #####################################################################################
 
 ## How to run S3norm pipeline
-### Use 's3norm_pipeline.py' to run S3norm pipeline.
-### After perparing the input data, user just need to set the 'script_directory' and 'working_directory' to run S3norm.
-#### For 'script_directory/', it should be set as the location of folder where the 'S3norm' is saved
-#### For 'working_directory/', it should be set as the location of folder where the input data (bedgraph files and file_list.txt) are saved.
-#### The example script:
+#### Use 's3norm_pipeline.py' to run S3norm pipeline.
+##### After perparing the input data, user just need to set the 'script_directory' and 'working_directory' to run S3norm.
+##### For 'script_directory/', it should be set as the location of folder where the 'S3norm' is saved
+##### For 'working_directory/', it should be set as the location of folder where the input data (bedgraph files and file_list.txt) are saved.
+##### The example script:
 ```
 ### Setting script directory
 script_directory='/Users/universe/Documents/2018_BG/S3norm/'
@@ -134,8 +134,8 @@ cd $working_directory
 time python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt
 ```
 #### The same script is also in the 'run_pipeline.sh' in the S3norm folder.
-#### To run the 's3norm_pipeline.py' using the 'run_pipeline.sh', user also need to change the 'script_directory' and 'working_directory' in the 'run_pipeline.sh'.
-#### Then Run:
+##### To run the 's3norm_pipeline.py' using the 'run_pipeline.sh', user also need to change the 'script_directory' and 'working_directory' in the 'run_pipeline.sh'.
+##### Then Run:
 ```
 bash run_pipeline.sh
 ```
