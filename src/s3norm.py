@@ -58,8 +58,8 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 		sig2_pk = sig2_pk + 0.1
 		sig1_bg = sig1_bg + 0.1
 		sig2_bg = sig2_bg + 0.1
-		sig1_pk_mean = np.mean(sig1_pk**2)
-		sig1_bg_mean = np.mean(sig1_bg**2)
+		sig1_pk_mean = np.mean(sig1_pk)
+		sig1_bg_mean = np.mean(sig1_bg)
 		print(sig1_pk_mean)
 		print(sig1_bg_mean)
 	elif method == 'median':
@@ -67,18 +67,18 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 		sig2_pk = sig2_pk + 0.1
 		sig1_bg = sig1_bg + 0.1
 		sig2_bg = sig2_bg + 0.1
-		sig1_pk_mean = np.median(sig1_pk**2)
-		sig1_bg_mean = np.median(sig1_bg**2)
+		sig1_pk_mean = np.median(sig1_pk)
+		sig1_bg_mean = np.median(sig1_bg)
 	elif method == 'non0mean':
-		sig1_pk_mean = np.mean(sig1_pk**2)
+		sig1_pk_mean = np.mean(sig1_pk)
 		sig1_bg = sig1_bg[sig1_bg>0]
 		sig2_bg = sig2_bg[sig2_bg>0]
-		sig1_bg_mean = np.mean(sig1_bg**2)
+		sig1_bg_mean = np.mean(sig1_bg)
 	elif method == 'non0median':
-		sig1_pk_mean = np.median(sig1_pk**2)
+		sig1_pk_mean = np.median(sig1_pk)
 		sig1_bg = sig1_bg[sig1_bg>0]
 		sig2_bg = sig2_bg[sig2_bg>0]
-		sig1_bg_mean = np.median(sig1_bg**2)
+		sig1_bg_mean = np.median(sig1_bg)
 	else:
 		print('please select method from: mean, median, non0mean, non0median')
 		return(0)
@@ -86,8 +86,8 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 	converge_min = 1000000000.0
 	for i in range(0, numIterations):
 		### transform target pk & bg
-		sig2_pk_transformed = sig2_pk**(2*B)
-		sig2_bg_transformed = sig2_bg**(2*B)
+		sig2_pk_transformed = sig2_pk**(B)
+		sig2_bg_transformed = sig2_bg**(B)
 		### set limit
 		sig2_pk_transformed[sig2_pk_transformed>upperlim] = upperlim
 		sig2_bg_transformed[sig2_bg_transformed>upperlim] = upperlim
@@ -105,7 +105,7 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 			print('B become negative. Restart...')
 			B = 1.0 + np.random.normal(0,1,1)[0]
 		### update sig2_bg_transformed
-		sig2_bg_transformed = sig2_bg**(2*B)
+		sig2_bg_transformed = sig2_bg**(B)
 		sig2_bg_transformed[sig2_bg_transformed>upperlim] = upperlim
 		### get A
 		if method == 'non0mean' or method == 'mean':
@@ -139,7 +139,7 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 				B = ( np.median(np.log(sig1_pk)) - np.median(np.log(sig1_bg)) ) / ( np.median(np.log(sig2_pk)) - np.median(np.log(sig2_bg)) )
 			if B<0:
 				B=B0
-			sig2_bg_transformed = sig2_bg**(2*B)
+			sig2_bg_transformed = sig2_bg**(B)
 			sig2_bg_transformed[sig2_bg_transformed>upperlim] = upperlim
 			if method == 'non0mean' or method == 'mean':
 				A = sig1_bg_mean / np.mean(sig2_bg_transformed)
@@ -263,6 +263,8 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, sig2_output_name, NTmethod, B_init, fdr_thr
 	sig2_cpk = sig2[peak_binary]
 
 	### get transformation factor
+	print('check!!!')
+	print(np.sum(sig1==sig2))
 	if sig1_wg_raw != sig2_wg_raw:
 		AB = NewtonRaphsonMethod(sig1_cpk, sig1_cbg, sig2_cpk, sig2_cbg, upperlim, 0.5, 2.0, NTmethod, 1e-5, 200)
 		A=AB[0]

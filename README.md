@@ -29,7 +29,10 @@
 
 ## Prerequisites and S3norm installation
 ### S3norm dependencies are as follows:
-#### python/2.7, numpy, scipy, and R/
+#### python/2.7 (https://www.python.org/downloads/release/python-2716/)
+#### python dependencies: numpy, scipy
+#### R (https://www.r-project.org/)
+#### gawk
 
 ### Installing S3norm pipeline
 #### Clone the github repository 
@@ -38,8 +41,22 @@ git clone https://github.com/guanjue/S3norm.git
 ```
 #### Install dependency: go to S3norm folder and run the following command
 ```
-time bash INSTALL.sh
+###### For python dependencies, they can be installed by the following scripts
+pip install --upgrade pip --user
+pip install --upgrade numpy --user
+pip install --upgrade scipy --user
+
+###### Installing gwak
+### Installing brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+### For some MAC, the following script needs to be run before installing gawk by brew
+sudo chown -R "$USER":admin $(brew --prefix)/*
+
+### Installing gawk
+brew install gawk
+
 ```
+
 
 #####################################################################################
 
@@ -52,9 +69,9 @@ time bash INSTALL.sh
 ##### For the ATAC-seq (or any other signal without control), a bedgraph file with control signal all equal to 1 can be used.
 ```
 >>> head file_list.txt 
-sig1.bedgraph	sig1.ctrl.bedgraph
-sig2.bedgraph	sig2.ctrl.bedgraph
-sig3.bedgraph	sig3.ctrl.bedgraph
+sig1.sorted.bedgraph	sig1.ctrl.sorted.bedgraph
+sig2.sorted.bedgraph	sig2.ctrl.sorted.bedgraph
+sig3.sorted.bedgraph	sig3.ctrl.sorted.bedgraph
 ```
 
 #### (2) The bedgraph files for S3norm
@@ -63,17 +80,17 @@ sig3.bedgraph	sig3.ctrl.bedgraph
 ##### For the S3norm full pipeline, the average read counts for each bin should be used as signal.
 ##### For the bedgraph files, they can be generated from bed file AND bigwig files by the bigWigAverageOverBed in UCSC utilities (http://hgdownload.soe.ucsc.edu/admin/exe/)
 ```
->>> head sig1.bedgraph
-chrX	23515400	23515600	30.95
-chr10	97283000	97283200	83.61
-chr9	82643200	82643400	56.96
-chr4	1898800	1899000	115.65
-chrX	155824800	155825000	65.42
-chr8	100720200	100720400	444.49
-chrY	2919000	2919200	0
-chr6	25794000	25794200	97.7
-chr4	190032400	190032600	111.24
-chr17	7828000	7828200	76.11
+>>> head sig1.UNsorted.bedgraph
+chr8	65127400	65127600	77.25
+chr21	40481600	40481800	72.84
+chr17	19170200	19170400	63.21
+chr14	32630400	32630600	51.64
+chr6	118552200	118552400	129.82
+chr13	93149400	93149600	295.07
+chr10	117806400	117806600	142.97
+chr19	1370200	1370400	223.43
+chr14	28469600	28469800	167.98
+chr2	181514400	181514600	220.7
 ```
 
 #### !!! The first three columns of All of bedgraph files in the filelist should be exactly the same !!!. 
@@ -83,22 +100,143 @@ chr17	7828000	7828200	76.11
 ##### This can be done by the following command:
 ```
 >>> sort -k1,1 -k2,2n sig1.UNsorted.bedgraph > sig1.sorted.bedgraph
+###### The head of the bedgraph file after sorting 
+>>> head sig1.sorted.bedgraph
+chr1	7000	7200	0
+chr1	18800	19000	0
+chr1	62400	62600	5.02
+chr1	63800	64000	188.21
+chr1	95600	95800	16.41
+chr1	136000	136200	0
+chr1	156000	156200	0
+chr1	158800	159000	0
+chr1	206400	206600	51.87
+chr1	217000	217200	0
 ```
+
 
 #####################################################################################
 
 ## How to run S3norm pipeline
-### Use 'S3norm_pipeline.py' to run S3norm pipeline
+### Use 's3norm_pipeline.py' to run S3norm pipeline.
+### After perparing the input data, user just need to set the 'script_directory' and 'working_directory' to run S3norm.
+#### For 'script_directory/', it should be set as the location of folder where the 'S3norm' is saved
+#### For 'working_directory/', it should be set as the location of folder where the input data (bedgraph files and file_list.txt) are saved.
+#### The example script:
 ```
 ### Setting script directory
 script_directory='/Users/universe/Documents/2018_BG/S3norm/'
 ### Setting working directory
-working_script_directory='/Users/universe/Documents/2018_BG/S3norm/example_file/'
+working_directory='/Users/universe/Documents/2018_BG/S3norm/example_file/'
 ### Entering working directory
-cd $working_script_directory
+cd $working_directory
 ### Run S3norm
-time python $script_directory'/src/S3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt
+time python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt
 ```
+#### The same script is also in the 'run_pipeline.sh' in the S3norm folder.
+#### To run the 's3norm_pipeline.py' using the 'run_pipeline.sh', user also need to change the 'script_directory' and 'working_directory' in the 'run_pipeline.sh'.
+#### Then Run:
+```
+bash run_pipeline.sh
+```
+#### The output should looks as follows in the 'working_directory' ('example_file/' folder in the example)
+```
+ls -ltrh example_file/
+total 91464
+-rw-r--r--  1 universe  staff   2.8M Jul 29 00:46 sig1.UNsorted.bedgraph
+-rw-r--r--  1 universe  staff   3.9M Jul 29 00:47 sig1.ctrl.UNsorted.bedgraph
+-rw-r--r--  1 universe  staff   2.7M Jul 29 00:48 sig2.UNsorted.bedgraph
+-rw-r--r--  1 universe  staff   3.9M Jul 29 00:48 sig2.ctrl.UNsorted.bedgraph
+-rw-r--r--  1 universe  staff   2.7M Jul 29 00:49 sig3.UNsorted.bedgraph
+-rw-r--r--  1 universe  staff   2.5M Jul 29 00:49 sig3.ctrl.UNsorted.bedgraph
+-rw-r--r--  1 universe  staff   2.8M Jul 29 00:50 sig1.sorted.bedgraph
+-rw-r--r--  1 universe  staff   2.7M Jul 29 00:50 sig2.sorted.bedgraph
+-rw-r--r--  1 universe  staff   2.7M Jul 29 00:50 sig3.sorted.bedgraph
+-rw-r--r--  1 universe  staff   3.9M Jul 29 00:50 sig1.ctrl.sorted.bedgraph
+-rw-r--r--  1 universe  staff   3.9M Jul 29 00:50 sig2.ctrl.sorted.bedgraph
+-rw-r--r--  1 universe  staff   2.5M Jul 29 00:51 sig3.ctrl.sorted.bedgraph
+-rw-r--r--  1 universe  staff   141B Jul 29 00:51 file_list.txt
+drwxr-xr-x  4 universe  staff   136B Jul 29 00:52 average_ref_bedgraph
+drwxr-xr-x  8 universe  staff   272B Jul 29 00:52 S3norm_rc_bedgraph
+drwxr-xr-x  8 universe  staff   272B Jul 29 00:52 S3norm_NBP_bedgraph
+drwxr-xr-x  5 universe  staff   170B Jul 29 00:52 NBP_bedgraph
+```
+
+
+#####################################################################################
+
+## Outputs of S3norm
+### All outputs will be saved in four subfolders in the working directory.
+##### The four subfolders will be named as:
+##### S3norm_rc_bedgraph
+##### NBP_bedgraph
+##### S3norm_NBP_bedgraph
+##### average_ref_bedgraph
+
+```
+>>> ls -ltrh
+total 39688
+-rw-r--r--  1 universe  staff   2.8M Jul 25 13:58 sig1.sorted.bedgraph
+-rw-r--r--  1 universe  staff   2.7M Jul 25 13:58 sig3.sorted.bedgraph
+-rw-r--r--  1 universe  staff   2.7M Jul 25 13:58 sig2.sorted.bedgraph
+-rw-r--r--  1 universe  staff   3.9M Jul 25 13:58 sig2.ctrl.sorted.bedgraph
+-rw-r--r--  1 universe  staff   3.9M Jul 25 13:58 sig1.ctrl.sorted.bedgraph
+-rw-r--r--  1 universe  staff   2.5M Jul 25 13:58 sig3.ctrl.sorted.bedgraph
+-rw-r--r--  1 universe  staff   141B Jul 28 20:27 file_list.txt
+drwxr-xr-x  4 universe  staff   136B Jul 28 20:29 average_ref_bedgraph
+drwxr-xr-x  8 universe  staff   272B Jul 28 20:29 S3norm_rc_bedgraph
+drwxr-xr-x  8 universe  staff   272B Jul 28 20:29 S3norm_NBP_bedgraph
+drwxr-xr-x  5 universe  staff   170B Jul 28 20:29 NBP_bedgraph
+```
+
+#### Within each subfolder, the normalized signals will be saved in '*.begraph' files.
+#### The normalization factors will be saved in '*.info.txt' files.
+### There are three kinds of outputs for S3norm
+##### (1) The S3norm normalized read counts. (Saved in 'S3norm_rc_bedgraph/')
+##### (This is the signal for application requires counts data. (e.g. EdgeR (https://bioconductor.org/packages/release/bioc/html/edgeR.html) and DESeq2 (https://bioconductor.org/packages/release/bioc/html/DESeq2.html) for differential peak calling))
+```
+>>> ls -ltrh S3norm_rc_bedgraph/
+total 22176
+-rw-r--r--  1 universe  staff   3.9M Jul 29 00:51 sig1.sorted.bedgraph.s3norm.bedgraph
+-rw-r--r--  1 universe  staff    86B Jul 29 00:51 sig1.sorted.bedgraph.info.txt
+-rw-r--r--  1 universe  staff   3.5M Jul 29 00:51 sig2.sorted.bedgraph.s3norm.bedgraph
+-rw-r--r--  1 universe  staff    86B Jul 29 00:51 sig2.sorted.bedgraph.info.txt
+-rw-r--r--  1 universe  staff   3.4M Jul 29 00:51 sig3.sorted.bedgraph.s3norm.bedgraph
+-rw-r--r--  1 universe  staff    71B Jul 29 00:51 sig3.sorted.bedgraph.info.txt
+```
+
+##### (2) The negative log10 p-value of S3norm normalized read counts based on a negative binomial background model. (Saved in 'NBP_bedgraph/')
+##### (This is the signal for peak calling 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
+```
+>>> ls -ltrh NBP_bedgraph
+total 21480
+-rw-r--r--  1 universe  staff   3.8M Jul 29 00:51 sig1.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
+-rw-r--r--  1 universe  staff   3.4M Jul 29 00:52 sig2.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
+-rw-r--r--  1 universe  staff   3.3M Jul 29 00:52 sig3.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
+```
+
+##### (3) The S3norm normalized negative log10 p-value based on a negative binomial background model. (Saved in 'S3norm_NBP_bedgraph/')
+##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018)  
+##### and peak calling by 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
+```
+>>> ls -ltrh S3norm_NBP_bedgraph/
+total 22480
+-rw-r--r--  1 universe  staff   4.0M Jul 29 00:52 sig1.sorted.bedgraph.NBP.s3norm.bedgraph
+-rw-r--r--  1 universe  staff    71B Jul 29 00:52 sig1.sorted.bedgraph.NBP.info.txt
+-rw-r--r--  1 universe  staff   3.6M Jul 29 00:52 sig2.sorted.bedgraph.NBP.s3norm.bedgraph
+-rw-r--r--  1 universe  staff    86B Jul 29 00:52 sig2.sorted.bedgraph.NBP.info.txt
+-rw-r--r--  1 universe  staff   3.4M Jul 29 00:52 sig3.sorted.bedgraph.NBP.s3norm.bedgraph
+-rw-r--r--  1 universe  staff    86B Jul 29 00:52 sig3.sorted.bedgraph.NBP.info.txt
+```
+
+##### (4) The reference signal for S3norm. (Saved in 'S3norm_NBP_bedgraph/')
+```
+>>> ls -ltrh average_ref_bedgraph/
+total 13296
+-rw-r--r--  1 universe  staff   2.7M Jul 29 00:51 average_ref.bedgraph
+-rw-r--r--  1 universe  staff   3.8M Jul 29 00:52 average_ref.bedgraph.NBP.bedgraph
+``` 
+
 
 #####################################################################################
 
@@ -110,7 +248,8 @@ time python $script_directory'/src/S3norm_pipeline.py' -s $script_directory'/src
 
 #### For other parameters, user can check them by using the following command:
 ```
-python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file_list -r (reference_method: mean or median) -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt)
+script_directory='/Users/universe/Documents/2018_BG/S3norm/'
+python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt -r max1 -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0
 ```
 
 #### The other parameters that can be changed:
@@ -127,49 +266,6 @@ python $script_directory'/src/S3norm_pipeline.py' -s script_folder -t input_file
 (10) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
 ```
 
-#####################################################################################
-
-## Outputs of S3norm
-### All outputs will be saved in the working directory
-#### The output signals will be saved in .begraph files.
-#### The output normalization factors will be saved in info.txt files.
-### There are three kinds of outputs for S3norm
-##### (1) The S3norm normalized read counts.
-##### (This is the signal for application requires counts data. (e.g. EdgeR (https://bioconductor.org/packages/release/bioc/html/edgeR.html) and DESeq2 (https://bioconductor.org/packages/release/bioc/html/DESeq2.html) for differential peak calling))
-```
-ls -l S3norm_rc_bedgraph/
-total 22176
--rw-r--r--  1 universe  staff       85 Jul 25 14:06 sig1.bedgraph.info.txt
--rw-r--r--  1 universe  staff  4079433 Jul 25 14:06 sig1.bedgraph.s3norm.bedgraph
--rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig2.bedgraph.info.txt
--rw-r--r--  1 universe  staff  3689446 Jul 25 14:06 sig2.bedgraph.s3norm.bedgraph
--rw-r--r--  1 universe  staff       85 Jul 25 14:06 sig3.bedgraph.info.txt
--rw-r--r--  1 universe  staff  3568614 Jul 25 14:06 sig3.bedgraph.s3norm.bedgraph
-```
-
-##### (2) The negative log10 p-value of S3norm normalized read counts based on a negative binomial background model.
-##### (This is the signal for peak calling 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
-```
-ls -l NBP_bedgraph/
-total 21544
--rw-r--r--  1 universe  staff  4010208 Jul 25 14:06 sig1.bedgraph.s3norm.NB.neglog10p.bedgraph
--rw-r--r--  1 universe  staff  3575110 Jul 25 14:06 sig2.bedgraph.s3norm.NB.neglog10p.bedgraph
--rw-r--r--  1 universe  staff  3440239 Jul 25 14:06 sig3.bedgraph.s3norm.NB.neglog10p.bedgraph
-```
-
-##### (3) The S3norm normalized negative log10 p-value based on a negative binomial background model. 
-##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018)  
-##### and peak calling by 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
-```
-ls -l S3norm_NBP_bedgraph/
-total 22408
--rw-r--r--  1 universe  staff       85 Jul 25 14:06 sig1.bedgraph.NBP.info.txt
--rw-r--r--  1 universe  staff  4130170 Jul 25 14:06 sig1.bedgraph.NBP.s3norm.bedgraph
--rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig2.bedgraph.NBP.info.txt
--rw-r--r--  1 universe  staff  3724940 Jul 25 14:06 sig2.bedgraph.NBP.s3norm.bedgraph
--rw-r--r--  1 universe  staff       86 Jul 25 14:06 sig3.bedgraph.NBP.info.txt
--rw-r--r--  1 universe  staff  3597926 Jul 25 14:06 sig3.bedgraph.NBP.s3norm.bedgraph
-```
 
 #####################################################################################
 ## How to run specific steps in S3norm pipeline
@@ -180,12 +276,11 @@ total 22408
 ##### -t : The filename of the traget signal bedgraph file. (The signal to be normalized by S3norm)
 ##### -o : The output filename of the S3norm normalized signal track (bedgraph format)
 ```
-time python $script_directory'/src/s3norm.py' -r average_ref.bedgraph -t sig1.bedgraph -o sig1.output
+time python $script_directory'/src/s3norm.py' -r average_ref.bedgraph -t sig1.sort.bedgraph -o sig1.output
 ```
 ##### The other parameters can be changed in 's3norm.py' are as follows
 ```
-python src/s3norm.py -h
-time python ../src/s3norm.py -r reference.bedgraph -t target.bedgraph -o target -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt)
+time python ../src/s3norm.py -r average_ref_bedgraph/average_ref.bedgraph -t sig1.sorted.bedgraph -o sig1.runseparately.output -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0
 ```
 ```
 (1) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
@@ -206,7 +301,7 @@ time python ../src/s3norm.py -r reference.bedgraph -t target.bedgraph -o target 
 ##### 2nd: The filename of Control signal track after S3nom (bedgraph format).
 ##### 3rd: The output filename of the NBP signal track (bedgraph format).
 ```
-Rscript $script_directory'/src/negative_binomial_neglog10p.R' sig1.bedgraph.s3norm.bedgraph sig1.ctrl.bedgraph sig1.bedgraph.s3norm.NB.neglog10p.bedgraph
+Rscript $script_directory'/src/negative_binomial_neglog10p.R' S3norm_rc_bedgraph/sig1.sorted.bedgraph.s3norm.bedgraph sig1.ctrl.sorted.bedgraph sig1.sorted.bedgraph.s3norm.NB.neglog10p.bedgraph
 ```
 
 

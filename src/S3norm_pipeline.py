@@ -8,7 +8,7 @@ def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, 
 	
 	### step 1
 	print('Get average reference......')
-	step1=call('bash '+script_folder+'/average_ref.awk.sh '+file_list+' '+reference_method+' '+reference_name, shell=True)
+	step1=call('bash '+script_folder+'/average_ref.awk.sh '+file_list+' '+reference_method+' '+reference_name+' '+script_folder, shell=True)
 	print('Get average reference......Done')
 
 	### step 2
@@ -23,7 +23,7 @@ def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, 
 
 	### step 4
 	print('Get NBP average reference......')
-	step4=call('bash '+script_folder+'/average_ref.awk.sh '+file_list+' '+reference_method+' '+reference_name+'.NBP.bedgraph .s3norm.NB.neglog10p.bedgraph', shell=True)
+	step4=call('bash '+script_folder+'/average_ref.awk.sh '+file_list+' '+reference_method+' '+reference_name+'.NBP.bedgraph'+' '+script_folder+' '+'.s3norm.NB.neglog10p.bedgraph', shell=True)
 	print('Get NBP average reference......Done')
 
 	### step 5
@@ -104,12 +104,12 @@ def main(argv):
 	###### optional parameters
 	try:
 		print('User provide reference_method: -r '+str(reference_method))
-		if reference_method!='mean' and reference_method!='median':
-			print('-r (mean, median)')
+		if reference_method!='mean' and reference_method!='median' and reference_method!='max1' and reference_method!='median1':
+			print('-r (mean, median, max1, median1)')
 			return()
 	except NameError:
-		print('Default reference_method: -m mean')
-		reference_method = 'mean'
+		print('Default reference_method: -m max1')
+		reference_method = 'max1'
 	###
 	try:
 		print('User provide NTmethod: -m '+str(NTmethod))
@@ -128,7 +128,7 @@ def main(argv):
 	###
 	try:
 		print('User provide fdr_thresh: -f '+str(fdr_thresh))
-		if fdr_thresh<0 or fdr_thresh>1:
+		if float(fdr_thresh)<0 or float(fdr_thresh)>1:
 			print('-f (0.000001~1.0)')
 			return()
 	except NameError:
@@ -137,7 +137,7 @@ def main(argv):
 	###
 	try:
 		print('User provide rank_lim: -l '+str(rank_lim))
-		if rank_lim<0 or rank_lim>1:
+		if float(rank_lim)<0 or float(rank_lim)>1:
 			print('-l (0.000001~1.0)')
 			return()
 	except NameError:

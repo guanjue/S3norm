@@ -1,3 +1,3 @@
-sig1.bedgraph	sig1.ctrl.bedgraph
-sig2.bedgraph	sig2.ctrl.bedgraph
-sig3.bedgraph	sig3.ctrl.bedgraph
+sig1.sorted.bedgraph	sig1.ctrl.sorted.bedgraph
+sig2.sorted.bedgraph	sig2.ctrl.sorted.bedgraph
+sig3.sorted.bedgraph	sig3.ctrl.sorted.bedgraph
