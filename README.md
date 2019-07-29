@@ -102,7 +102,15 @@ chr2	181514400	181514600	220.7
 ##### This can be done by the following command:
 ```
 >>> sort -k1,1 -k2,2n sig1.UNsorted.bedgraph > sig1.sorted.bedgraph
-###### The head of the bedgraph file after sorting 
+>>> sort -k1,1 -k2,2n sig2.UNsorted.bedgraph > sig2.sorted.bedgraph
+>>> sort -k1,1 -k2,2n sig3.UNsorted.bedgraph > sig3.sorted.bedgraph
+>>> sort -k1,1 -k2,2n sig1.ctrl.UNsorted.bedgraph > sig1.ctrl.sorted.bedgraph
+>>> sort -k1,1 -k2,2n sig2.ctrl.UNsorted.bedgraph > sig2.ctrl.sorted.bedgraph
+>>> sort -k1,1 -k2,2n sig3.ctrl.UNsorted.bedgraph > sig3.ctrl.sorted.bedgraph
+
+###### The head of the bedgraph files after sorting. 
+###### The first three columns of the bedgraph files are exactly the same. 
+###### Only the 4th columns are different. 
 >>> head sig1.sorted.bedgraph
 chr1	7000	7200	0
 chr1	18800	19000	0
@@ -114,6 +122,29 @@ chr1	156000	156200	0
 chr1	158800	159000	0
 chr1	206400	206600	51.87
 chr1	217000	217200	0
+>>> head sig2.sorted.bedgraph
+chr1	7000	7200	0
+chr1	18800	19000	0
+chr1	62400	62600	0
+chr1	63800	64000	2.66
+chr1	95600	95800	0
+chr1	136000	136200	50.26
+chr1	156000	156200	0
+chr1	158800	159000	0
+chr1	206400	206600	0
+chr1	217000	217200	0
+>>> head sig3.sorted.bedgraph
+chr1	7000	7200	0
+chr1	18800	19000	0
+chr1	62400	62600	0
+chr1	63800	64000	0
+chr1	95600	95800	0
+chr1	136000	136200	0
+chr1	156000	156200	0
+chr1	158800	159000	0
+chr1	206400	206600	0
+chr1	217000	217200	0
+
 ```
 
 
