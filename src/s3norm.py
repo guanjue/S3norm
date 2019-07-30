@@ -70,11 +70,15 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 		sig1_pk_mean = np.median(sig1_pk)
 		sig1_bg_mean = np.median(sig1_bg)
 	elif method == 'non0mean':
+		sig1_pk = sig1_pk[sig1_pk>0]
+		sig2_pk = sig2_pk[sig2_pk>0]
 		sig1_pk_mean = np.mean(sig1_pk)
 		sig1_bg = sig1_bg[sig1_bg>0]
 		sig2_bg = sig2_bg[sig2_bg>0]
 		sig1_bg_mean = np.mean(sig1_bg)
 	elif method == 'non0median':
+		sig1_pk = sig1_pk[sig1_pk>0]
+		sig2_pk = sig2_pk[sig2_pk>0]
 		sig1_pk_mean = np.median(sig1_pk)
 		sig1_bg = sig1_bg[sig1_bg>0]
 		sig2_bg = sig2_bg[sig2_bg>0]
