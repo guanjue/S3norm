@@ -88,6 +88,13 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 		return(0)
 	##################### loop start
 	converge_min = 1000000000.0
+	###
+	if (sig1_bg.shape[0]==0 or sig2_bg.shape[0]==0):
+		print('The background of one sample is all 0s, then use peak mean ratio')
+		sig2_pk_mean = np.mean(sig2_pk)
+		used_AB = [sig1_pk_mean/sig2_pk_mean, 1.0]
+		return(np.array(used_AB))
+
 	for i in range(0, numIterations):
 		### transform target pk & bg
 		sig2_pk_transformed = sig2_pk**(B)
