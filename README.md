@@ -235,7 +235,7 @@ total 21480
 ```
 
 ##### (3) The S3norm normalized negative log10 p-value based on a negative binomial background model. (Saved in 'S3norm_NBP_bedgraph/')
-##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018)  
+##### (This is the signal for genome segmentation (https://github.com/guanjue/IDEAS_2018) 
 ##### and peak calling by 'bdgpeakcall' and 'bdgbroadcall' in MACS2 (https://github.com/taoliu/MACS))
 ```
 ls -ltrh S3norm_NBP_bedgraph/
@@ -247,7 +247,11 @@ total 22480
 -rw-r--r--  1 universe  staff   3.4M Jul 29 00:52 sig3.sorted.bedgraph.NBP.s3norm.bedgraph
 -rw-r--r--  1 universe  staff    86B Jul 29 00:52 sig3.sorted.bedgraph.NBP.info.txt
 ```
-
+##### !!! Noted that for genome segmentation, we suggest user to user use '-r median' for computing reference track.
+##### !!! This parameter can be set in last line of the "run_pipeline.sh" script
+```
+time python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t file_list.txt -r median
+```
 ##### (4) The 4th folder is used to save the reference signals for S3norm. (Saved in 'S3norm_NBP_bedgraph/')
 ```
 ls -ltrh average_ref_bedgraph/
