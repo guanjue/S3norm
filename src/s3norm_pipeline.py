@@ -108,8 +108,8 @@ def main(argv):
 			print('-r (mean, median, max1, median1)')
 			return()
 	except NameError:
-		print('Default reference_method: -m median1')
-		reference_method = 'median1'
+		print('Default reference_method: -m max1')
+		reference_method = 'max1'
 	###
 	try:
 		print('User provide NTmethod: -m '+str(NTmethod))
