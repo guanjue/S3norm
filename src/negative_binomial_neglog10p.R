@@ -68,6 +68,10 @@ sig[sig<1]=0
 
 ### remove extrame signals
 sig_notop = sig[sig<=quantile(sig, 0.99)]
+if (sum(sig_notop>1)<30){
+print('Bins with signal greater than 1 is Less than 30. There may have some problem in the data')
+sig_notop = sig
+}
 
 ### make sure the min(positive number is 1)
 if (min_non0>10){
