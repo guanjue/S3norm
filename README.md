@@ -278,7 +278,8 @@ python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t
 #### The other parameters that can be changed:
 ```
 (1) -r : The method for generating the reference signal track. Options: max1 (default: select the dataset with the max FRiP score as reference), max1 (select the dataset with the highest FRiP score as reference), median (generate signal track by using the median signal of each bin), mean (generate signal track by using the mean signal of each bin)
-(2) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
+(2) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median) 
+(2) -m : filelist_row_number (If user want to select one sample as the reference, use "-m filelist_row_number", where filelist_row_number is the row number (start from 1) of the reference sample in the file_list.txt)
 (3) -i : The initial value for the power parameter in the non-linear transformation. Default: 2.0
 (4) -f : The FDR threshold for identifying common peaks. Default: 0.05 . The range is 0.0 < x < 1.0
 (5) -l : The minimum proportion of bins are used as peak for S3norm. Default: 0.001 . The range is 0.0 < x < 1.0

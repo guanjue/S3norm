@@ -114,8 +114,9 @@ def main(argv):
 	try:
 		print('User provide NTmethod: -m '+str(NTmethod))
 		if NTmethod!='non0mean' and NTmethod!='non0median' and NTmethod!='mean' and NTmethod!='median':
-			print('-m (non0mean, non0median, mean, median)')
-			return()
+			if float(NTmethod)+0!=float(NTmethod):
+				print('-m (non0mean, non0median, mean, median, filelist_row_number)')
+				return()
 	except NameError:
 		print('Default NTmethod: -m non0mean')
 		NTmethod = 'non0mean'

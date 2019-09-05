@@ -45,6 +45,12 @@ if [ "$method" == "median1" ]
 	Rscript $script_folder'get_max_median1.R' $method $file_list sigmat.average_ref.txt $end
 fi
 
+if [ "$method" != "median" ] && [ "$method" == "mean" ] && [ "$method" == "max1" ] && [ "$method" == "median1" ]
+	then
+	echo 'get reference ' $method
+	cut -f$method sigmat.txt > sigmat.average_ref.txt
+fi
+
 echo 'get output bedgraph file'
 paste $outputname sigmat.average_ref.txt > $outputname'.tmp' && mv $outputname'.tmp' $outputname
 rm sigmat.average_ref.txt

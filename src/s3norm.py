@@ -84,8 +84,14 @@ def NewtonRaphsonMethod(sig1_pk, sig1_bg, sig2_pk, sig2_bg, upperlim, A,B, metho
 		sig2_bg = sig2_bg[sig2_bg>0]
 		sig1_bg_mean = np.median(sig1_bg)
 	else:
-		print('please select method from: mean, median, non0mean, non0median')
-		return(0)
+		method = 'non0mean'
+		sig1_pk = sig1_pk[sig1_pk>0]
+		sig2_pk = sig2_pk[sig2_pk>0]
+		sig1_pk_mean = np.mean(sig1_pk)
+		sig1_bg = sig1_bg[sig1_bg>0]
+		sig2_bg = sig2_bg[sig2_bg>0]
+		sig1_bg_mean = np.mean(sig1_bg)
+
 	##################### loop start
 	converge_min = 1000000000.0
 	###
@@ -379,8 +385,9 @@ def main(argv):
 	try:
 		print('User provide NTmethod: -m '+str(NTmethod))
 		if NTmethod!='non0mean' and NTmethod!='non0median' and NTmethod!='mean' and NTmethod!='median':
-			print('-m (non0mean, non0median, mean, median)')
-			return()
+			if float(NTmethod)+0!=float(NTmethod):
+				print('-m (non0mean, non0median, mean, median, filelist_row_number)')
+				return()
 	except NameError:
 		print('Default NTmethod: -m non0mean')
 		NTmethod = 'non0mean'
