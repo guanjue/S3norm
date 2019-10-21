@@ -6,7 +6,7 @@ qval_bedgraph_file = args[2]
 method = args[3]
 
 d = read.table(pval_bedgraph_file, header=F)
-p = d[,4]
+p = 10^(-d[,4])
 q = p.adjust(p, method)
 dq = cbind(d[,1:3], q)
 
