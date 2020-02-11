@@ -287,7 +287,7 @@ python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t
 (7) -b : The lowerlimit for signal. S3norm requires all signal to be x >= 0 . Default: 0
 (8) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
 (9) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
-(10) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
+(10) -g : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
 ```
 
 
@@ -304,7 +304,7 @@ time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_
 ```
 ##### The other parameters can be changed in 's3norm.py' are as follows
 ```
-time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_bedgraph/average_ref.bedgraph' -t sig1.sorted.bedgraph -o sig1.runseparately.output -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0
+time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_bedgraph/average_ref.bedgraph' -t sig1.sorted.bedgraph -o sig1.runseparately.output -m non0mean -i 2.0 -f 0.05 -l 0.001 -a 100000 -b 0 -p z -k 0 -g 0 -c F
 ```
 ```
 (1) -m : The method for matching peaks and background. Options: non0mean (default), non0median, mean, median)
@@ -316,6 +316,7 @@ time python $script_directory'/src/s3norm.py' -r $working_directory'average_ref_
 (7) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
 (8) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
 (9) -g  : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
+(10) -c : Whether to use cross feature mode. (T: for use cross mark mode; F: for not use cross mark mode)
 ```
 
 
