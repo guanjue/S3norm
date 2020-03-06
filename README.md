@@ -288,6 +288,7 @@ python $script_directory'/src/s3norm_pipeline.py' -s $script_directory'/src/' -t
 (8) -p : The method used to identify common peaks. Options: z (Default) and neglog10p (negative log10 p-value from background model)
 (9) -k : The user given common peak regions. Options: 0 (Default, the common peak will be identified by S3norm) or filename (a file points out which bins are the common peaks. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common peak, the column should be 1 for that row. Otherwise, it should be 0 )
 (10) -g : The user given common background regions. Options: 0 (Default, the common background will be identified by S3norm) or filename (a file points out which bins are the common background. The rows in this file match the rows in bedgraph files. It should contain only 1 column. If the row of a bin is a common background, the column should be 1 for that row. Otherwise, it should be 0 )
+(11) -c : Whether to use cross feature mode. (T: for use cross mark mode; F: for NOT use cross mark mode)
 ```
 
 
