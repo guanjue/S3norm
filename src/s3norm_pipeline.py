@@ -3,7 +3,7 @@ import numpy as np
 import subprocess
 from subprocess import call
 
-def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, p_method, common_pk_binary, common_bg_binary, script_folder, file_list, reference_method):
+def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, p_method, common_pk_binary, common_bg_binary, script_folder, file_list, reference_method, cross_mark):
 	reference_name = 'average_ref.bedgraph'
 	
 	### step 1
@@ -28,7 +28,7 @@ def S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, 
 
 	### step 5
 	print('Get S3norm normalized negative log10 p-value based on NB background model......')
-	step5=call('for file in $(cat '+file_list+' | awk -F \'\t\' \'{print $1}\'); do python '+script_folder+'/s3norm.py -r '+reference_name+'.NBP.bedgraph -t $file\'.s3norm.NB.neglog10p.bedgraph\' -o $file\'.NBP\' -p neglog10p -m '+NTmethod+' -i '+B_init+' -f '+fdr_thresh+' -l '+rank_lim+' -a '+upperlim+' -b '+lowerlim+' -k '+common_pk_binary+' -g '+common_bg_binary+'; done', shell=True)
+	step5=call('for file in $(cat '+file_list+' | awk -F \'\t\' \'{print $1}\'); do python '+script_folder+'/s3norm.py -r '+reference_name+'.NBP.bedgraph -t $file\'.s3norm.NB.neglog10p.bedgraph\' -o $file\'.NBP\' -p neglog10p -m '+NTmethod+' -i '+B_init+' -f '+fdr_thresh+' -l '+rank_lim+' -a '+upperlim+' -b '+lowerlim+' -k '+common_pk_binary+' -g '+common_bg_binary+' -c '+cross_mark+'; done', shell=True)
 	print('Get S3norm normalized negative log10 p-value based on NB background model......Done')
 
 	### step 6
@@ -62,10 +62,10 @@ import getopt
 import sys
 def main(argv):
 	### read user provided parameters
-	opts, args = getopt.getopt(argv,"hr:s:t:m:i:f:l:a:b:p:k:g:")
+	opts, args = getopt.getopt(argv,"hr:s:t:m:i:f:l:a:b:p:k:g:c:")
 	for opt,arg in opts:
 		if opt=="-h":
-			print('time python ../src/S3norm_pipeline.py -s script_folder -t input_file_list -r reference_method -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt)')
+			print('time python ../src/S3norm_pipeline.py -s script_folder -t input_file_list -r reference_method -m (Method for matching peaks and background: non0mean, non0median, mean, median) -i initial_B -f FDR_thresh -l rank_lim_p -a upperlimit -b lowerlimit -p (p-value_method: neglog10p, z) -k common_pk_binary (0 for nocommon_pk; common_pk_binary.txt) -g common_bg_binary (0 for nocommon_pk; common_bg_binary.txt) -c cross_mark (F for NOT use cross mark mode; T for use cross mark mode)')
 			return()	
 		elif opt=="-m":
 			NTmethod=str(arg.strip())
@@ -91,6 +91,8 @@ def main(argv):
 			file_list=str(arg.strip())
 		elif opt=="-r":
 			reference_method=str(arg.strip())
+		elif opt=="-c":
+			cross_mark=str(arg.strip())
 
 	############ Default parameters
 	###### required parameters
@@ -178,10 +180,16 @@ def main(argv):
 		print('Default common_bg_binary: -g 0')
 		common_bg_binary = '0'
 	###
+	try:
+		print('User provide cross_mark: -c '+str(cross_mark))
+	except NameError:
+		print('Default cross_mark: -c F')
+		cross_mark = 'F'
+	###
 
 	######### run s3norm
 	print('start S3norm.......')
-	S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, p_method, common_pk_binary, common_bg_binary, script_folder, file_list, reference_method)
+	S3norm_pipeline(NTmethod, B_init, fdr_thresh, rank_lim, upperlim, lowerlim, p_method, common_pk_binary, common_bg_binary, script_folder, file_list, reference_method, cross_mark)
 
 
 if __name__=="__main__":
