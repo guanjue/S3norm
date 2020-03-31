@@ -111,7 +111,7 @@ def main(argv):
 			return()
 	except NameError:
 		print('Default reference_method: -m max1')
-		reference_method = 'max1'
+		reference_method = 'mean'
 	###
 	try:
 		print('User provide NTmethod: -m '+str(NTmethod))
