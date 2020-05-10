@@ -257,7 +257,8 @@ def s3norm(sig1_wg_raw, sig2_wg_raw, sig2_output_name, NTmethod, B_init, fdr_thr
 			peak_binary = (common_pk_binary_sig == 1.0)[:,0]
 		else:
 			print('user provided common peaks number < bin_num * rank_lim. Not use')
-			peak_binary = (sig1_binary[:,0] & sig2_binary[:,0])
+			#peak_binary = (sig1_binary[:,0] & sig2_binary[:,0])
+			peak_binary = (sig1_binary & sig2_binary)
 	else:
 		print('use FDR common peaks')
 		peak_binary = (sig1_binary & sig2_binary)
