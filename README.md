@@ -1,8 +1,8 @@
 # S3norm
 ## The second version of the S3norm has been incorporated into the S3V2_IDEAS_ESMP pipeline (https://github.com/guanjue/S3V2_IDEAS_ESMP#Prerequisites-and-S3V2_IDEAS_ESMP-installation). 
-## The S3V2_IDEAS_ESMP pipeline is much easier to use and it also incorporate the IDEAS package to call epigenetic state or master peak list across different epigenomic data.
+### The S3V2_IDEAS_ESMP pipeline is much easier to use and it also incorporate the IDEAS package to call epigenetic state or master peak list across different epigenomic data.
 
-## From  Reads Count (RC) to S3norm normalized -log10(p-value)
+#### From  Reads Count (RC) to S3norm normalized -log10(p-value)
 
 #### Motivation: The quantitative comparison of epigenomic data across multiple cell types has become a promising way to understand the biological function of epigenetic modifications. Due to difference in sequencing depth and signal-to-noise ratio, however, the raw epigenomic data may not reflect the real biological difference between cell types. Existing normalization methods are mainly designed for scaling signals in either the whole-genome or the peak regions, without considering the potentially different scaling factors between peak and background regions. Results: We propose a new data normalization method, S3norm, that normalizes the data by using a monotonic nonlinear data transformation to match signals in both the peak regions and the background regions differently, such that both sequencing depth and signal-to-noise ratio between data sets can be simulatenously normalized. We show that the S3norm normalized epigenomic data can better reflect real biological differences across multiple cell types.
 
